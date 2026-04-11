@@ -27,7 +27,7 @@ export default function DashboardLayout() {
       />
 
       <div className="flex-1 flex flex-col min-h-screen overflow-x-hidden">
-        <div className="flex items-center md:hidden px-4 pt-4">
+        <div className="flex items-center md:hidden px-6 pt-4">
           <button
             onClick={() => setSidebarOpen(true)}
             className="text-white p-2 hover:bg-white/5 rounded-lg"
@@ -35,10 +35,10 @@ export default function DashboardLayout() {
             <FiMenu size={22} />
           </button>
         </div>
-        <div className="hidden md:block px-6 md:px-8 lg:px-10">
-          <Navbar placeholder="Search crops..." brandText="" />
+        <div className="hidden md:block px-8 md:px-10 lg:px-12">
+          <Navbar />
         </div>
-        <main className="flex-1 p-6 md:p-8 lg:p-10">
+        <main className="flex-1 p-6 md:px-10 md:py-8 lg:px-12 lg:py-10">
           <Outlet />
         </main>
       </div>

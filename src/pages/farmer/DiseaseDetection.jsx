@@ -38,7 +38,7 @@ export default function DiseaseDetection() {
       <DecorativeDot size={16} className="top-20 left-1/3 bg-accent/30" />
       <DecorativeDot size={10} className="bottom-20 right-1/4 bg-dark-muted/30" />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative z-10">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 relative z-10">
         {/* Left: Steps */}
         <div className="lg:col-span-1">
           <div className="space-y-8">

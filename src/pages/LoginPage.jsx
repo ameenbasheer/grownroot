@@ -65,7 +65,7 @@ export default function LoginPage() {
           {/* Action buttons */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="glass-card p-4">
+              <div className="glass-card p-4 my-3">
                 <label className="text-dark-muted text-xs block mb-2">Email</label>
                 <div className="flex items-center gap-2">
                   <FiMail className="text-accent" size={16} />
@@ -80,7 +80,7 @@ export default function LoginPage() {
                 </div>
               </div>
 
-              <div className="glass-card p-4">
+              <div className="glass-card p-4 my-3">
                 <label className="text-dark-muted text-xs block mb-2">Password</label>
                 <div className="flex items-center gap-2">
                   <FiLock className="text-accent" size={16} />
@@ -108,18 +108,12 @@ export default function LoginPage() {
               Email & password login
             </button>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <button type="button" className="pill-btn w-full !py-2.5 text-sm">
-                Quick social sign-in
-              </button>
+            <div className="grid grid-cols-1 my-3 gap-3">
               <Link to="/register" className="pill-btn w-full !py-2.5 text-sm text-center no-underline flex items-center justify-center">
                 Easy registration
               </Link>
             </div>
 
-            <button type="button" className="pill-btn w-full !py-2.5 text-sm">
-              Password recovery
-            </button>
           </form>
         </div>
       </div>

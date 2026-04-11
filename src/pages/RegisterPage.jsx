@@ -59,7 +59,7 @@ export default function RegisterPage() {
             <span className="text-5xl">🌾</span>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4 my-3">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="glass-card p-4">
                 <label className="text-dark-muted text-xs block mb-2">Full Name</label>
@@ -94,7 +94,7 @@ export default function RegisterPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3  my-3">
               <div className="glass-card p-4">
                 <label className="text-dark-muted text-xs block mb-2">Password</label>
                 <div className="flex items-center gap-2">
@@ -140,7 +140,7 @@ export default function RegisterPage() {
               Create Account
             </button>
 
-            <p className="text-dark-muted text-sm text-center">
+            <p className="text-dark-muted text-sm text-center my-3">
               Already have an account?{' '}
               <Link to="/login" className="text-accent hover:underline">
                 Sign in

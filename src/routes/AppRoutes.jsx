@@ -39,10 +39,11 @@ export default function AppRoutes() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
 
-      {/* Marketplace (public — browse without login) */}
+      {/* Marketplace & Weather (public — browse without login) */}
       <Route element={<MainLayout />}>
         <Route path="/marketplace" element={<MarketplacePage />} />
         <Route path="/marketplace/:id" element={<ProductDetail />} />
+        <Route path="/weather" element={<WeatherPage />} />
       </Route>
       <Route path="/marketplace/add" element={
         <ProtectedRoute>

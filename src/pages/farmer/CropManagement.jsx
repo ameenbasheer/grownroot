@@ -20,7 +20,7 @@ export default function CropManagement() {
       <DecorativeCircle size="lg" className="-top-32 -right-32 opacity-15" />
       <DecorativeCircle size="md" className="top-1/2 -left-20 opacity-10" />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 relative z-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 relative z-10">
         {/* Left: image */}
         <div className="img-showcase h-64 lg:h-full bg-gradient-to-br from-accent/8 to-primary/10 flex items-center justify-center min-h-[300px]">
           <span className="text-7xl">🌿</span>
@@ -28,7 +28,7 @@ export default function CropManagement() {
 
         {/* Right: content */}
         <div>
-          <div className="mb-6">
+          <div className="mb-8">
             <h1 className="text-3xl md:text-4xl font-light text-white">Crop</h1>
             <h2 className="text-3xl md:text-4xl font-bold text-white">Management</h2>
           </div>

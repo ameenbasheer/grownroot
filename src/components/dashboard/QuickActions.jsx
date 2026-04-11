@@ -10,7 +10,7 @@ const actions = [
 
 export default function QuickActions() {
   return (
-    <div className="glass-card p-5">
+    <div className="glass-card p-5 ">
       <span className="text-accent text-xs font-semibold mb-2 block">04</span>
       <h3 className="text-white font-bold text-base mb-4">Quick Actions</h3>
       <div className="grid grid-cols-2 gap-3">

@@ -24,15 +24,23 @@ export default function Hero() {
           <p className="text-dark-muted text-lg md:text-xl mb-10 max-w-lg mx-auto lg:mx-0">
             Smart farming made simple — manage, grow, and sell.
           </p>
-          <Link
-            to="/register"
-            className="pill-btn inline-flex items-center gap-4 text-lg !px-8 !py-4 no-underline"
-          >
-            Get Started
-            <span className="w-10 h-10 rounded-full border border-accent/40 flex items-center justify-center">
-              <FiArrowRight className="text-accent" />
-            </span>
-          </Link>
+          <div className="flex flex-wrap items-center gap-4">
+            <Link
+              to="/marketplace"
+              className="pill-btn inline-flex items-center gap-4 text-lg !px-8 !py-4 no-underline"
+            >
+              Explore Market
+              <span className="w-10 h-10 rounded-full border border-accent/40 flex items-center justify-center">
+                <FiArrowRight className="text-accent" />
+              </span>
+            </Link>
+            <Link
+              to="/register"
+              className="text-dark-muted hover:text-white text-sm no-underline transition-colors border border-dark-border rounded-full px-6 py-4"
+            >
+              Create Account
+            </Link>
+          </div>
         </div>
 
         {/* Right: Farm illustration placeholder */}

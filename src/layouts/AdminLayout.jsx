@@ -34,7 +34,7 @@ export default function AdminLayout() {
           </button>
         </div>
         <div className="hidden md:block px-6 md:px-8 lg:px-10">
-          <Navbar placeholder="Search users..." />
+          <Navbar />
         </div>
         <main className="flex-1 p-6 md:p-8 lg:p-10">
           <Outlet />

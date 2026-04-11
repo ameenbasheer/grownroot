@@ -1,9 +1,9 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { FiSearch, FiLogOut, FiUser } from 'react-icons/fi';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { FiLogOut, FiUser, FiShoppingBag, FiCloudRain } from 'react-icons/fi';
 import { useAuth } from '../../context/AuthContext';
 import logo from '../../assets/logo.png';
 
-export default function Navbar({ placeholder = 'Search...' }) {
+export default function Navbar() {
   const { isAuthenticated, user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -12,20 +12,43 @@ export default function Navbar({ placeholder = 'Search...' }) {
     navigate('/');
   };
 
+  const navLinkClass = ({ isActive }) =>
+    `flex items-center gap-1.5 text-sm no-underline transition-colors ${
+      isActive ? 'text-accent font-semibold' : 'text-dark-muted hover:text-white'
+    }`;
+
   return (
     <nav className="w-full flex items-center justify-between py-4 relative z-10">
       <Link to="/" className="flex items-center no-underline">
-        <img src={logo} alt="GrownRoot" className="h-20 w-auto object-contain" />
+        <img src={logo} alt="GrownRoot" className="h-10 w-auto object-contain" />
       </Link>
 
-      <div className="flex items-center gap-4">
-        <div className="hidden md:flex items-center search-input px-4 py-2 w-64 lg:w-80">
-          <input
-            type="text"
-            placeholder={placeholder}
-            className="bg-transparent border-none outline-none text-dark-text text-sm flex-1 placeholder:text-dark-muted"
-          />
-          <FiSearch className="text-accent ml-2" />
+      {/* Public navigation links */}
+      <div className="hidden md:flex items-center gap-6">
+        <NavLink to="/marketplace" className={navLinkClass}>
+          <FiShoppingBag size={15} />
+          Marketplace
+        </NavLink>
+        <NavLink to="/weather" className={navLinkClass}>
+          <FiCloudRain size={15} />
+          Weather
+        </NavLink>
+        {isAuthenticated && (
+          <NavLink to="/dashboard" className={navLinkClass}>
+            Dashboard
+          </NavLink>
+        )}
+      </div>
+
+      <div className="flex items-center gap-3">
+        {/* Mobile nav links */}
+        <div className="flex md:hidden items-center gap-3">
+          <NavLink to="/marketplace" className={navLinkClass}>
+            <FiShoppingBag size={16} />
+          </NavLink>
+          <NavLink to="/weather" className={navLinkClass}>
+            <FiCloudRain size={16} />
+          </NavLink>
         </div>
 
         {isAuthenticated ? (

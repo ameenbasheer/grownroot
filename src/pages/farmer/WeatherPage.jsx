@@ -37,8 +37,8 @@ export default function WeatherPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
         {/* Title */}
         <div>
-          <h1 className="text-4xl md:text-5xl font-light text-white">Weather</h1>
-          <h2 className="text-4xl md:text-5xl font-bold text-accent">Forecast</h2>
+          <h1 className="text-3xl md:text-4xl font-light text-white">Weather</h1>
+          <h2 className="text-3xl md:text-4xl font-bold text-accent">Forecast</h2>
         </div>
 
         {/* Description */}
@@ -66,7 +66,7 @@ export default function WeatherPage() {
       </div>
 
       {/* 5-day forecast */}
-      <div className="mt-10 relative z-10">
+      <div className="mt-8 relative z-10">
         <h3 className="text-white font-semibold text-lg mb-4">5-Day Forecast</h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
           {forecastDays.map((day) => (
