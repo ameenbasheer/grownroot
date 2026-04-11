@@ -1,0 +1,117 @@
+/* Decorative background circles */
+.bg-circle {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid rgba(45, 212, 191, 0.2);
+  pointer-events: none;
+}
+
+.bg-circle-lg {
+  width: 500px;
+  height: 500px;
+}
+
+.bg-circle-md {
+  width: 300px;
+  height: 300px;
+}
+
+.bg-circle-sm {
+  width: 150px;
+  height: 150px;
+}
+
+.bg-dot {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(45, 212, 191, 0.4);
+  pointer-events: none;
+}
+
+/* Glass card effect */
+.glass-card {
+  background: rgba(15, 50, 45, 0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(45, 212, 191, 0.2);
+  border-radius: 16px;
+}
+
+/* Gradient backgrounds */
+.bg-gradient-dark {
+  background: linear-gradient(135deg, #0a1e1e 0%, #0d2d2a 50%, #0a2525 100%);
+}
+
+.bg-gradient-card {
+  background: linear-gradient(180deg, rgba(45, 212, 191, 0.15) 0%, rgba(15, 50, 45, 0.6) 100%);
+}
+
+/* Sidebar active link */
+.sidebar-link.active {
+  background: rgba(45, 212, 191, 0.15);
+  border-left: 3px solid #2dd4bf;
+}
+
+/* Image rounded style */
+.img-showcase {
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(45, 212, 191, 0.15);
+}
+
+/* Custom input style */
+.search-input {
+  background: transparent;
+  border: 1px solid rgba(45, 212, 191, 0.3);
+  border-radius: 30px;
+  color: #e2e8f0;
+  padding: 10px 20px;
+}
+
+.search-input::placeholder {
+  color: rgba(226, 232, 240, 0.5);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #2dd4bf;
+  box-shadow: 0 0 0 2px rgba(45, 212, 191, 0.15);
+}
+
+/* Feature pill buttons */
+.pill-btn {
+  border: 1px solid rgba(45, 212, 191, 0.3);
+  border-radius: 30px;
+  padding: 12px 28px;
+  color: #e2e8f0;
+  background: transparent;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.pill-btn:hover {
+  background: rgba(45, 212, 191, 0.1);
+  border-color: #2dd4bf;
+  color: #fff;
+}
+
+/* Stat card */
+.stat-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Product card */
+.product-card {
+  background: linear-gradient(180deg, rgba(45, 212, 191, 0.12) 0%, rgba(15, 50, 45, 0.5) 100%);
+  border: 1px solid rgba(45, 212, 191, 0.2);
+  border-radius: 16px;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+}
