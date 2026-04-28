@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
-import { FiPlus, FiCloud, FiShoppingBag, FiCamera } from 'react-icons/fi';
+import { FiPlus, FiCloud, FiShoppingBag, FiCamera, FiZap } from 'react-icons/fi';
 
 const actions = [
   { icon: <FiPlus />, label: 'Add Crop', to: '/dashboard/crops/add' },
+  { icon: <FiZap />, label: 'AI Suggest', to: '/dashboard/suggest' },
   { icon: <FiCloud />, label: 'Weather', to: '/dashboard/weather' },
   { icon: <FiShoppingBag />, label: 'Marketplace', to: '/marketplace' },
   { icon: <FiCamera />, label: 'Scan Plant', to: '/dashboard/disease' },

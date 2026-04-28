@@ -14,6 +14,7 @@ import RegisterPage from '../pages/RegisterPage';
 import FarmerDashboard from '../pages/farmer/FarmerDashboard';
 import CropManagement from '../pages/farmer/CropManagement';
 import AddCrop from '../pages/farmer/AddCrop';
+import CropSuggestions from '../pages/farmer/CropSuggestions';
 import DiseaseDetection from '../pages/farmer/DiseaseDetection';
 import WeatherPage from '../pages/farmer/WeatherPage';
 
@@ -26,7 +27,7 @@ import AddProduct from '../pages/marketplace/AddProduct';
 import AdminDashboard from '../pages/admin/AdminDashboard';
 
 // Route protection
-import { ProtectedRoute, AdminRoute } from './ProtectedRoute';
+import { ProtectedRoute, AdminRoute, FarmerRoute } from './ProtectedRoute';
 
 export default function AppRoutes() {
   return (
@@ -51,15 +52,16 @@ export default function AppRoutes() {
         </ProtectedRoute>
       } />
 
-      {/* Farmer dashboard (protected) */}
+      {/* Farmer dashboard (farmer-only) */}
       <Route path="/dashboard" element={
-        <ProtectedRoute>
+        <FarmerRoute>
           <DashboardLayout />
-        </ProtectedRoute>
+        </FarmerRoute>
       }>
         <Route index element={<FarmerDashboard />} />
         <Route path="crops" element={<CropManagement />} />
         <Route path="crops/add" element={<AddCrop />} />
+        <Route path="suggest" element={<CropSuggestions />} />
         <Route path="disease" element={<DiseaseDetection />} />
         <Route path="weather" element={<WeatherPage />} />
       </Route>

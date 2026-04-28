@@ -1,15 +1,61 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FiUser, FiMail, FiLock, FiUserPlus } from 'react-icons/fi';
+import {
+  FiUser,
+  FiMail,
+  FiLock,
+  FiUserPlus,
+  FiEye,
+  FiEyeOff,
+  FiArrowRight,
+  FiArrowLeft,
+  FiShoppingBag,
+  FiCpu,
+  FiActivity,
+  FiTruck,
+} from 'react-icons/fi';
+import { GiFarmer } from 'react-icons/gi';
 import { useAuth } from '../context/AuthContext';
-import { DecorativeCircle } from '../components/common/DecorativeElements';
 import logo from '../assets/logo.png';
+import Images from '../assets/images';
+
+const ROLES = [
+  {
+    id: 'farmer',
+    title: 'Farmer',
+    blurb: 'Manage crops & sell produce.',
+    Icon: GiFarmer,
+  },
+  {
+    id: 'buyer',
+    title: 'Buyer',
+    blurb: 'Shop fresh from local farms.',
+    Icon: FiShoppingBag,
+  },
+];
+
+const FARMER_HIGHLIGHTS = [
+  { Icon: FiCpu, label: 'AI crop suggestions & tracking' },
+  { Icon: FiActivity, label: 'Disease detection from photos' },
+  { Icon: FiShoppingBag, label: 'Sell directly to verified buyers' },
+];
+
+const BUYER_HIGHLIGHTS = [
+  { Icon: FiShoppingBag, label: 'Browse farm-fresh produce' },
+  { Icon: FiTruck, label: 'Buy direct from the grower' },
+  { Icon: FiActivity, label: 'Save favorites & reorder fast' },
+];
 
 export default function RegisterPage() {
+  const [role, setRole] = useState('farmer');
   const [formData, setFormData] = useState({ name: '', email: '', password: '', confirmPassword: '' });
   const [formError, setFormError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const { register } = useAuth();
   const navigate = useNavigate();
+
+  const highlights = role === 'farmer' ? FARMER_HIGHLIGHTS : BUYER_HIGHLIGHTS;
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -22,85 +68,162 @@ export default function RegisterPage() {
       setFormError('Passwords do not match');
       return;
     }
-    register({ name: formData.name, email: formData.email });
-    navigate('/dashboard');
+    register({ name: formData.name, email: formData.email, role });
+    navigate(role === 'farmer' ? '/dashboard' : '/marketplace');
   };
 
   return (
-    <div className="min-h-screen bg-gradient-dark flex items-center justify-center px-4 relative overflow-hidden">
-      <DecorativeCircle size="xl" className="-top-40 -right-40 opacity-30" />
-      <DecorativeCircle size="lg" className="-bottom-32 -left-32 opacity-20" />
+    <div className="min-h-screen bg-gradient-dark flex items-center justify-center px-4 py-8 relative overflow-hidden">
+      {/* ambient glow */}
+      <div className="absolute top-0 right-1/4 w-[500px] h-[500px] rounded-full bg-accent/10 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] rounded-full bg-primary/20 blur-[120px] pointer-events-none" />
 
-      <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-10 items-center relative z-10">
-        {/* Left content */}
-        <div className="text-center lg:text-left">
-          <Link to="/" className="flex items-center no-underline mb-8 lg:inline-flex justify-center lg:justify-start">
-            <img src={logo} alt="GrownRoot" className="h-9 w-auto object-contain" />
-          </Link>
-          <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-4">
-            Join<br /><span className="text-accent">GrownRoot</span>
-          </h1>
+      <div className="w-full max-w-5xl relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 rounded-3xl overflow-hidden shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)] border border-dark-border bg-dark-surface backdrop-blur-xl">
+          {/* Left: image panel */}
+          <div className="relative hidden lg:flex flex-col justify-between p-5 min-h-[640px]">
+            <img
+              src={Images.farm_illustration5}
+              alt="Farm"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-dark-bg/70 via-dark-bg/75 to-dark-bg/95" />
 
-          <div className="border-l-2 border-accent pl-4 my-6">
-            <p className="text-dark-text text-sm">
-              Create your account and start farming smarter.
-            </p>
+            {/* Top: logo + back link */}
+            <div className="relative flex items-center justify-between">
+              <Link to="/" className="inline-flex items-center no-underline">
+                <img src={logo} alt="GrownRoot" className="h-9 w-auto object-contain" />
+              </Link>
+              <Link
+                to="/"
+                className="inline-flex items-center gap-1.5 text-xs text-white hover:text-accent transition no-underline"
+              >
+                <FiArrowLeft size={14} />
+                Back home
+              </Link>
+            </div>
+
+            {/* Bottom: copy */}
+            <div className="relative">
+              <h1 className="text-4xl font-bold text-white leading-tight mb-3">
+                Join <span className="text-accent">GrownRoot</span>.
+              </h1>
+              <p className="text-white/75 text-sm leading-relaxed mb-7 max-w-sm">
+                {role === 'farmer'
+                  ? 'Create your farmer account and start farming smarter with AI tools and a marketplace built for you.'
+                  : 'Create your buyer account and shop fresh produce directly from the people who grew it.'}
+              </p>
+
+              <ul className="space-y-3">
+                {highlights.map(({ Icon, label }) => (
+                  <li key={label} className="flex items-center gap-2 text-white/85 text-sm mt-2">
+                    <span className="w-8 h-8 rounded-full bg-accent/15 border border-accent/40 flex items-center justify-center text-accent shrink-0">
+                      <Icon size={14} />
+                    </span>
+                    {label}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
-          <p className="text-dark-muted text-sm leading-relaxed max-w-sm mx-auto lg:mx-0">
-            Get access to crop management, disease detection, weather forecasts,
-            and a marketplace to sell your products directly to buyers.
-          </p>
-        </div>
+          {/* Right: form panel */}
+          <div className="bg-dark-bg/40 p-5 flex flex-col justify-center">
+            {/* mobile-only logo */}
+            <Link to="/" className="lg:hidden inline-flex items-center justify-center mb-8 no-underline">
+              <img src={logo} alt="GrownRoot" className="h-9 w-auto object-contain" />
+            </Link>
 
-        {/* Right: register form */}
-        <div>
-          <div className="img-showcase mb-8 h-48 bg-gradient-to-br from-accent/10 to-primary/10 flex items-center justify-center">
-            <span className="text-5xl">🌾</span>
-          </div>
+            <div className="mb-6">
+              <h2 className="text-2xl font-semibold text-white mb-1.5">Create account</h2>
+              <p className="text-dark-muted text-sm">
+                Pick how you'll use GrownRoot, then fill in your details.
+              </p>
+            </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4 my-3">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div className="glass-card p-4">
-                <label className="text-dark-muted text-xs block mb-2">Full Name</label>
-                <div className="flex items-center gap-2">
-                  <FiUser className="text-accent" size={16} />
+            {/* Role selector */}
+            <div
+              role="tablist"
+              aria-label="Select account type"
+              className="relative grid grid-cols-2 gap-1 p-1 mb-4 rounded-2xl bg-dark-card/40 border border-dark-border/80 backdrop-blur-xl shadow-inner shadow-black/20"
+            >
+              <span
+                aria-hidden="true"
+                className="absolute top-1 bottom-1 left-1 w-[calc(50%-0.25rem)] rounded-xl bg-gradient-to-br from-accent via-accent to-accent/70 shadow-[0_8px_24px_-4px_rgba(45,212,191,0.5),inset_0_1px_0_rgba(255,255,255,0.2)] transition-transform duration-400 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+                style={{ transform: role === 'farmer' ? 'translateX(0%)' : 'translateX(100%)' }}
+              />
+              {ROLES.map(({ id, title, Icon }) => {
+                const selected = role === id;
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    role="tab"
+                    aria-selected={selected}
+                    onClick={() => setRole(id)}
+                    className={`relative z-10 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium tracking-wide transition-all duration-300 ${selected
+                      ? 'text-dark-bg'
+                      : 'text-dark-muted hover:text-white/90'
+                      }`}
+                  >
+                    <Icon
+                      size={16}
+                      className={`transition-transform duration-300 ${selected ? 'scale-110' : 'scale-100'}`}
+                    />
+                    I'm a {title}
+                  </button>
+                );
+              })}
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Name */}
+              <div>
+                <label className="text-dark-text text-xs font-medium block  mb-1">
+                  Full name
+                </label>
+                <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-dark-card border border-dark-border focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/20 transition">
+                  <FiUser className="text-accent shrink-0" size={16} />
                   <input
                     type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    placeholder="Maria Santos"
+                    placeholder={role === 'farmer' ? 'Maria Santos' : 'Ahmed Khan'}
                     className="bg-transparent border-none outline-none text-white text-sm flex-1 placeholder:text-dark-muted"
                     required
                   />
                 </div>
               </div>
 
-              <div className="glass-card p-4">
-                <label className="text-dark-muted text-xs block mb-2">Email</label>
-                <div className="flex items-center gap-2">
-                  <FiMail className="text-accent" size={16} />
+              {/* Email */}
+              <div>
+                <label className="text-dark-text text-xs font-medium block mt-2 mb-1">
+                  Email address
+                </label>
+                <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-dark-card border border-dark-border focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/20 transition">
+                  <FiMail className="text-accent shrink-0" size={16} />
                   <input
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="maria@farm.com"
+                    placeholder={role === 'farmer' ? 'maria@farm.com' : 'ahmed@buyer.com'}
                     className="bg-transparent border-none outline-none text-white text-sm flex-1 placeholder:text-dark-muted"
                     required
                   />
                 </div>
               </div>
-            </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3  my-3">
-              <div className="glass-card p-4">
-                <label className="text-dark-muted text-xs block mb-2">Password</label>
-                <div className="flex items-center gap-2">
-                  <FiLock className="text-accent" size={16} />
+              {/* Password */}
+              <div>
+                <label className="text-dark-text text-xs font-medium block mt-2 mb-1">
+                  Password
+                </label>
+                <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-dark-card border border-dark-border focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/20 transition">
+                  <FiLock className="text-accent shrink-0" size={16} />
                   <input
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
@@ -108,15 +231,26 @@ export default function RegisterPage() {
                     className="bg-transparent border-none outline-none text-white text-sm flex-1 placeholder:text-dark-muted"
                     required
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((s) => !s)}
+                    className="text-dark-muted hover:text-accent transition"
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  >
+                    {showPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
+                  </button>
                 </div>
               </div>
 
-              <div className="glass-card p-4">
-                <label className="text-dark-muted text-xs block mb-2">Confirm Password</label>
-                <div className="flex items-center gap-2">
-                  <FiLock className="text-accent" size={16} />
+              {/* Confirm Password */}
+              <div>
+                <label className="text-dark-text text-xs font-medium block mt-2 mb-1">
+                  Confirm password
+                </label>
+                <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-dark-card border border-dark-border focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/20 transition">
+                  <FiLock className="text-accent shrink-0" size={16} />
                   <input
-                    type="password"
+                    type={showConfirm ? 'text' : 'password'}
                     name="confirmPassword"
                     value={formData.confirmPassword}
                     onChange={handleChange}
@@ -124,29 +258,41 @@ export default function RegisterPage() {
                     className="bg-transparent border-none outline-none text-white text-sm flex-1 placeholder:text-dark-muted"
                     required
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirm((s) => !s)}
+                    className="text-dark-muted hover:text-accent transition"
+                    aria-label={showConfirm ? 'Hide password' : 'Show password'}
+                  >
+                    {showConfirm ? <FiEyeOff size={16} /> : <FiEye size={16} />}
+                  </button>
                 </div>
               </div>
-            </div>
 
-            {formError && (
-              <p className="text-red-400 text-sm text-center">{formError}</p>
-            )}
+              {formError && (
+                <div className="rounded-lg border border-red-400/30 bg-red-500/10 px-3 py-2 text-red-300 text-xs text-center">
+                  {formError}
+                </div>
+              )}
 
-            <button
-              type="submit"
-              className="pill-btn w-full flex items-center justify-center gap-2 !py-3 text-base hover:!bg-accent/10"
-            >
-              <FiUserPlus size={18} />
-              Create Account
-            </button>
+              {/* Submit */}
+              <button
+                type="submit"
+                className="w-full h-[50px] mt-4 flex items-center justify-center gap-2 py-3 rounded-5 bg-accent text-dark-bg font-semibold text-sm hover:bg-accent/90 hover:shadow-[0_8px_24px_rgba(45,212,191,0.35)] transition group"
+              >
+                Create {role === 'farmer' ? 'Farmer' : 'Buyer'} account
+                <FiArrowRight size={14} className="group-hover:translate-x-0.5 transition" />
+              </button>
 
-            <p className="text-dark-muted text-sm text-center my-3">
-              Already have an account?{' '}
-              <Link to="/login" className="text-accent hover:underline">
-                Sign in
-              </Link>
-            </p>
-          </form>
+              {/* Login link */}
+              <p className="text-dark-muted text-sm text-center pt-2 mt-2">
+                Already have an account?{' '}
+                <Link to="/login" className="text-accent hover:underline font-medium">
+                  Sign in
+                </Link>
+              </p>
+            </form>
+          </div>
         </div>
       </div>
     </div>

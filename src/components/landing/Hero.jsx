@@ -1,54 +1,116 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiArrowRight } from 'react-icons/fi';
-import { DecorativeCircle, DecorativeDot } from '../common/DecorativeElements';
 import farmIllustration from '../../assets/farm_illustration.jpg';
+import farmIllustration2 from '../../assets/farm_illustration2.jpg';
+import farmIllustration3 from '../../assets/farm_illustration3.jpg';
+
+const slides = [
+  {
+    type: 'image',
+    src: farmIllustration,
+    title: 'Farm to Table',
+    subtitle: 'Fresh produce, direct from local farmers',
+  },
+  {
+    type: 'image',
+    src: farmIllustration2,
+    title: 'Smart Harvest',
+    subtitle: 'Track crops from seed to harvest',
+  },
+  {
+    type: 'image',
+    src: farmIllustration3,
+    title: 'Sustainable Growth',
+    subtitle: 'AI insights for healthier yields',
+  },
+];
 
 export default function Hero() {
-  return (
-    <section className="relative min-h-[85vh] flex items-center overflow-hidden">
-      {/* Decorative elements */}
-      <DecorativeCircle size="xl" className="-top-32 -left-48" />
-      <DecorativeCircle size="md" className="top-60 left-72 opacity-40" />
-      <DecorativeCircle size="lg" className="-bottom-32 -right-32 opacity-30" />
-      <DecorativeDot size={40} className="top-40 left-64 bg-accent/50" />
-      <DecorativeDot size={24} className="top-72 right-1/4 bg-accent/20" />
-      <DecorativeDot size={20} className="bottom-32 right-48 bg-dark-muted/30" />
+  const [index, setIndex] = useState(0);
 
-      <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
-        {/* Left: Text */}
-        <div className="text-center lg:text-left">
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6">
+  useEffect(() => {
+    const id = setInterval(() => {
+      setIndex((prev) => (prev + 1) % slides.length);
+    }, 4500);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <section className="hero-fullbleed relative min-h-[85vh] flex items-center overflow-hidden">
+      {/* Carousel slides */}
+      {slides.map((slide, i) => (
+        <div
+          key={i}
+          className={`carousel-slide ${i === index ? 'active' : ''}`}
+          style={slide.type === 'gradient' ? { background: slide.gradient } : undefined}
+        >
+          {slide.type === 'image' ? (
+            <img
+              src={slide.src}
+              alt={slide.title}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <span className="text-[16rem] md:text-[22rem] drop-shadow-2xl select-none opacity-80">
+                {slide.emoji}
+              </span>
+            </div>
+          )}
+        </div>
+      ))}
+
+      {/* Dark readability overlay */}
+      <div className="absolute inset-0 bg-gradient-to-r from-dark-bg/90 via-dark-bg/65 to-dark-bg/30 z-[1]" />
+      <div className="absolute inset-0 bg-gradient-to-t from-dark-bg/80 via-transparent to-transparent z-[1]" />
+
+      {/* Content */}
+      <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 sm:px-10 md:px-14 lg:px-20 py-16">
+        <div className="max-w-2xl mx-auto text-center">
+          <span className="inline-flex items-center gap-2 px-3 py-1 text-accent text-xs uppercase tracking-widest mb-6 backdrop-blur">
+            {slides[index].subtitle}
+          </span>
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6 drop-shadow-lg">
             From Root<br />
             <span className="text-accent">to Growth.</span>
           </h1>
-          <p className="text-dark-muted text-lg md:text-xl mb-10 max-w-lg mx-auto lg:mx-0">
+          <p className="text-white/80 text-lg md:text-lg mb-10 max-w-lg mx-auto">
             Smart farming made simple — manage, grow, and sell.
           </p>
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
               to="/marketplace"
-              className="pill-btn inline-flex items-center gap-4 text-lg !px-8 !py-4 no-underline"
+              className="pill-btn inline-flex items-center gap-4 text-sm !px-3 !py-2 bg-accent/10 backdrop-blur"
             >
               Explore Market
-              <span className="w-10 h-10 rounded-full border border-accent/40 flex items-center justify-center">
+              <span className="w-5 h-5 rounded-full border border-accent/40 flex items-center justify-center">
                 <FiArrowRight className="text-accent" />
               </span>
             </Link>
-            <Link
+            {/* <Link
               to="/register"
-              className="text-dark-muted hover:text-white text-sm no-underline transition-colors border border-dark-border rounded-full px-6 py-4"
+              className="pill-btn inline-flex items-center gap-4 text-sm !px-5 !py-2 bg-dark-bg/40 backdrop-blur"
             >
               Create Account
-            </Link>
+              <span className="w-5 h-5 rounded-full border border-accent/40 flex items-center justify-center">
+                <FiArrowRight className="text-accent" />
+              </span>
+            </Link> */}
           </div>
         </div>
+      </div>
 
-        {/* Right: Farm illustration placeholder */}
-        <div className="hidden lg:flex justify-center">
-          <div className="w-full max-w-md aspect-square rounded-3xl border border-dark-border overflow-hidden">
-            <img src={farmIllustration} alt="Farm illustration" className="w-full h-full object-cover" />
-          </div>
-        </div>
+      {/* Dots */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
+        {slides.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setIndex(i)}
+            aria-label={`Go to slide ${i + 1}`}
+            className={`carousel-dot ${i === index ? 'active' : ''}`}
+          />
+        ))}
       </div>
     </section>
   );

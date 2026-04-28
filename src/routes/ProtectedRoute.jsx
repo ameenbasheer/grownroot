@@ -24,3 +24,17 @@ export function AdminRoute({ children }) {
 
   return children;
 }
+
+export function FarmerRoute({ children }) {
+  const { isAuthenticated, user } = useAuth();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (user?.role !== 'farmer') {
+    return <Navigate to="/marketplace" replace />;
+  }
+
+  return children;
+}

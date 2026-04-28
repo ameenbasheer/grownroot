@@ -1,5 +1,5 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { FiLogOut, FiUser, FiShoppingBag, FiCloudRain } from 'react-icons/fi';
+import { FiLogOut, FiUser, FiShoppingBag, FiCloudRain, FiGrid } from 'react-icons/fi';
 import { useAuth } from '../../context/AuthContext';
 import logo from '../../assets/logo.png';
 
@@ -12,29 +12,29 @@ export default function Navbar() {
     navigate('/');
   };
 
-  const navLinkClass = ({ isActive }) =>
-    `flex items-center gap-1.5 text-sm no-underline transition-colors ${
-      isActive ? 'text-accent font-semibold' : 'text-dark-muted hover:text-white'
-    }`;
+  const tabClass = ({ isActive }) => `nav-tab ${isActive ? 'active' : ''}`;
+  const tabIconClass = ({ isActive }) =>
+    `nav-tab !px-3 ${isActive ? 'active' : ''}`;
 
   return (
-    <nav className="w-full flex items-center justify-between py-4 relative z-10">
-      <Link to="/" className="flex items-center no-underline">
-        <img src={logo} alt="GrownRoot" className="h-10 w-auto object-contain" />
+    <nav className="w-full flex items-center justify-between py-3 relative z-10">
+      <Link to="/" className="flex items-center">
+        <img src={logo} alt="GrownRoot" className="h-15 w-auto object-contain" />
       </Link>
 
       {/* Public navigation links */}
-      <div className="hidden md:flex items-center gap-6">
-        <NavLink to="/marketplace" className={navLinkClass}>
+      <div className="hidden md:flex items-center gap-2 bg-dark-surface/40 border border-dark-border rounded-full p-1">
+        <NavLink to="/marketplace" className={tabClass}>
           <FiShoppingBag size={15} />
           Marketplace
         </NavLink>
-        <NavLink to="/weather" className={navLinkClass}>
+        <NavLink to="/weather" className={tabClass}>
           <FiCloudRain size={15} />
           Weather
         </NavLink>
-        {isAuthenticated && (
-          <NavLink to="/dashboard" className={navLinkClass}>
+        {isAuthenticated && user?.role === 'farmer' && (
+          <NavLink to="/dashboard" className={tabClass}>
+            <FiGrid size={15} />
             Dashboard
           </NavLink>
         )}
@@ -42,18 +42,18 @@ export default function Navbar() {
 
       <div className="flex items-center gap-3">
         {/* Mobile nav links */}
-        <div className="flex md:hidden items-center gap-3">
-          <NavLink to="/marketplace" className={navLinkClass}>
+        <div className="flex md:hidden items-center gap-1 bg-dark-surface/40 border border-dark-border rounded-full p-1">
+          <NavLink to="/marketplace" className={tabIconClass} aria-label="Marketplace">
             <FiShoppingBag size={16} />
           </NavLink>
-          <NavLink to="/weather" className={navLinkClass}>
+          <NavLink to="/weather" className={tabIconClass} aria-label="Weather">
             <FiCloudRain size={16} />
           </NavLink>
         </div>
 
         {isAuthenticated ? (
           <div className="flex items-center gap-3">
-            <span className="text-dark-text text-sm hidden lg:block">
+            <span className="text-white text-sm hidden lg:block">
               {user?.name}
             </span>
             <button
@@ -66,11 +66,11 @@ export default function Navbar() {
           </div>
         ) : (
           <div className="flex items-center gap-2">
-            <Link to="/login" className="pill-btn text-sm no-underline !py-2 !px-4 flex items-center gap-1">
+            <Link to="/login" className="pill-btn text-sm !py-2 !px-4 flex items-center gap-1">
               <FiUser size={14} />
               Login
             </Link>
-            <Link to="/register" className="pill-btn text-sm no-underline !py-2 !px-4 hidden sm:flex">
+            <Link to="/register" className="pill-btn text-sm !py-2 !px-4 hidden sm:flex">
               Register
             </Link>
           </div>

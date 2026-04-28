@@ -28,6 +28,15 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Remove underline from all links globally */
+a,
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none !important;
 }
 
 /* Custom scrollbar */

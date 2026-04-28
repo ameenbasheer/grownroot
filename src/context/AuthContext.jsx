@@ -6,6 +6,7 @@ const AuthContext = createContext(null);
 // Demo users for static prototype
 const DEMO_USERS = {
   farmer: { id: 1, name: 'Maria Santos', email: 'farmer@grownroot.com', role: 'farmer', avatar: null },
+  buyer: { id: 2, name: 'Ahmed Khan', email: 'buyer@grownroot.com', role: 'buyer', avatar: null },
   admin: { id: 99, name: 'Admin User', email: 'admin@grownroot.com', role: 'admin', avatar: null },
 };
 
@@ -17,6 +18,8 @@ export function AuthProvider({ children }) {
     // Static login — will be replaced with API call
     if (email === 'admin@grownroot.com') {
       dispatch({ type: AUTH_ACTIONS.LOGIN, payload: DEMO_USERS.admin });
+    } else if (email === 'buyer@grownroot.com') {
+      dispatch({ type: AUTH_ACTIONS.LOGIN, payload: DEMO_USERS.buyer });
     } else {
       dispatch({ type: AUTH_ACTIONS.LOGIN, payload: DEMO_USERS.farmer });
     }
@@ -26,8 +29,8 @@ export function AuthProvider({ children }) {
     dispatch({ type: AUTH_ACTIONS.SET_LOADING, payload: true });
     const newUser = {
       id: Date.now(),
-      ...userData,
       role: 'farmer',
+      ...userData,
       avatar: null,
     };
     dispatch({ type: AUTH_ACTIONS.REGISTER, payload: newUser });

@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FiSave, FiArrowLeft } from 'react-icons/fi';
+import { FiSave, FiArrowLeft, FiZap, FiDroplet, FiCalendar, FiInfo } from 'react-icons/fi';
 import { useApp } from '../../context/AppContext';
 import { DecorativeCircle } from '../../components/common/DecorativeElements';
 import { Link } from 'react-router-dom';
+import { analyzeCrop } from '../../services/aiService';
 
 export default function AddCrop() {
   const [form, setForm] = useState({
@@ -13,6 +14,9 @@ export default function AddCrop() {
     harvestDate: '',
     field: '',
   });
+  const [insights, setInsights] = useState(null);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState('');
   const { addCrop } = useApp();
   const navigate = useNavigate();
 
@@ -20,9 +24,26 @@ export default function AddCrop() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const handleAiAssist = async () => {
+    if (!form.name.trim() || !form.plantedDate.trim()) {
+      setAiError('Enter crop name and planted date first.');
+      return;
+    }
+    setAiError('');
+    setAiLoading(true);
+    const result = await analyzeCrop({ name: form.name, plantedDate: form.plantedDate });
+    setInsights(result);
+    setForm((f) => ({ ...f, harvestDate: result.harvestDate }));
+    setAiLoading(false);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    addCrop(form);
+    const planted = form.plantedDate ? new Date(form.plantedDate) : null;
+    const plantedLabel = planted && !isNaN(planted.getTime())
+      ? planted.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+      : form.plantedDate;
+    addCrop({ ...form, plantedDate: plantedLabel, aiInsights: insights });
     navigate('/dashboard/crops');
   };
 
@@ -90,11 +111,10 @@ export default function AddCrop() {
           <div className="glass-card p-4">
             <label className="text-dark-muted text-xs block mb-2">Planted Date</label>
             <input
-              type="text"
+              type="date"
               name="plantedDate"
               value={form.plantedDate}
               onChange={handleChange}
-              placeholder="e.g. Mar 15"
               className="w-full bg-transparent border-none outline-none text-white text-sm placeholder:text-dark-muted"
               required
             />
@@ -113,6 +133,63 @@ export default function AddCrop() {
             />
           </div>
         </div>
+
+        {/* AI assist */}
+        <button
+          type="button"
+          onClick={handleAiAssist}
+          disabled={aiLoading}
+          className="pill-btn w-full flex items-center justify-center gap-2 !py-3 text-sm hover:!bg-accent/10 disabled:opacity-60"
+        >
+          <FiZap size={16} />
+          {aiLoading ? 'AI analyzing…' : 'AI: estimate harvest, growth stages & watering'}
+        </button>
+
+        {aiError && <p className="text-red-400 text-xs text-center">{aiError}</p>}
+
+        {insights && (
+          <div className="glass-card p-4 border-accent/40 space-y-3">
+            <div className="flex items-center gap-2">
+              <FiZap className="text-accent" size={14} />
+              <span className="text-white text-sm font-semibold">AI Insights</span>
+              {!insights.matched && (
+                <span className="text-dark-muted text-xs">(generic estimate)</span>
+              )}
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div className="flex items-center gap-2 text-dark-text">
+                <FiCalendar className="text-accent" size={12} />
+                Harvest by {insights.harvestDate}
+              </div>
+              <div className="flex items-center gap-2 text-dark-text">
+                <FiDroplet className="text-accent" size={12} />
+                Water {insights.wateringPerWeek}× per week
+              </div>
+            </div>
+
+            <div>
+              <p className="text-dark-muted text-xs uppercase tracking-wider mb-2">Growth stages</p>
+              <ol className="space-y-1">
+                {insights.stages.map((stage, i) => (
+                  <li key={i} className="flex items-center justify-between text-xs">
+                    <span className="text-dark-text">
+                      {i + 1}. {stage.name}
+                    </span>
+                    <span className="text-dark-muted">until {stage.endDate}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+
+            {insights.note && (
+              <div className="flex items-start gap-2 text-dark-muted text-xs pt-1 border-t border-dark-border">
+                <FiInfo size={12} className="mt-0.5 shrink-0 text-accent/70" />
+                <span>{insights.note}</span>
+              </div>
+            )}
+          </div>
+        )}
 
         <button
           type="submit"
