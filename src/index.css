@@ -31,21 +31,24 @@ body {
   overflow-x: hidden;
 }
 
-/* Remove underline from all links globally */
+/* Remove underline + default blue from all links globally */
 a,
 a:hover,
 a:focus,
 a:active {
   text-decoration: none !important;
+  color: white;
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: var(--color-dark-bg);
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--color-accent-dim);
   border-radius: 3px;

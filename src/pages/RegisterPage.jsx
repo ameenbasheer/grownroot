@@ -69,7 +69,7 @@ export default function RegisterPage() {
       return;
     }
     register({ name: formData.name, email: formData.email, role });
-    navigate(role === 'farmer' ? '/dashboard' : '/marketplace');
+    navigate(role === 'farmer' ? '/onboarding' : '/marketplace');
   };
 
   return (

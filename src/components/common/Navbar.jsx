@@ -17,7 +17,7 @@ export default function Navbar() {
     `nav-tab !px-3 ${isActive ? 'active' : ''}`;
 
   return (
-    <nav className="w-full flex items-center justify-between py-3 relative z-10">
+    <nav className="w-full flex items-center justify-between py-3 px-3 relative z-10">
       <Link to="/" className="flex items-center">
         <img src={logo} alt="GrownRoot" className="h-15 w-auto object-contain" />
       </Link>

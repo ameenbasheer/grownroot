@@ -1,126 +1,143 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FiPlus, FiTrash2, FiZap, FiDroplet, FiCalendar, FiChevronDown } from 'react-icons/fi';
+import { useNavigate, Link } from 'react-router-dom';
+import { FiPlus, FiTrendingUp } from 'react-icons/fi';
+import { GiPlantSeed } from 'react-icons/gi';
 import { useApp } from '../../context/AppContext';
 import { DecorativeCircle } from '../../components/common/DecorativeElements';
+import PieChart3D, { PIE_PALETTE } from '../../components/common/PieChart3D';
 
 export default function CropManagement() {
-  const { crops, deleteCrop } = useApp();
-  const [expanded, setExpanded] = useState(null);
+  const { crops, farmerProfile } = useApp();
+  const navigate = useNavigate();
 
-  const statusColor = (status) => {
-    switch (status) {
-      case 'Active': return 'bg-green-400';
-      case 'Growing': return 'bg-yellow-400';
-      case 'Ready': return 'bg-accent';
-      default: return 'bg-dark-muted';
-    }
+  const allocated = crops.reduce((sum, c) => sum + (Number(c.areaPercent) || 0), 0);
+  const pieData = crops.map((c, i) => ({
+    id: c.id,
+    label: c.name,
+    value: Number(c.areaPercent) || 0,
+    color: PIE_PALETTE[i % PIE_PALETTE.length],
+  }));
+  if (allocated < 100) {
+    pieData.push({ id: 'unused', label: 'Unused', value: 100 - allocated, color: '#475569' });
+  }
+
+  const goToCrop = (slice) => {
+    if (slice.id !== 'unused') navigate(`/dashboard/crops/${slice.id}`);
   };
-
-  const toggle = (id) => setExpanded((cur) => (cur === id ? null : id));
 
   return (
     <div className="relative">
       <DecorativeCircle size="lg" className="-top-32 -right-32 opacity-15" />
       <DecorativeCircle size="md" className="top-1/2 -left-20 opacity-10" />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 relative z-10">
-        {/* Left: image */}
-        <div className="img-showcase h-64 lg:h-full bg-gradient-to-br from-accent/8 to-primary/10 flex items-center justify-center min-h-[300px]">
-          <span className="text-7xl">🌿</span>
+      <div className="mb-5 relative z-10">
+        <h1 className="text-3xl md:text-4xl font-light text-white">Manage</h1>
+        <h2 className="text-3xl md:text-4xl font-bold text-white">Your Crops</h2>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-5 relative z-10">
+        {/* Pie chart */}
+        <div className="lg:col-span-2 glass-card p-5">
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <p className="text-dark-muted text-xs uppercase tracking-wider">Land allocation</p>
+              <p className="text-white text-base font-semibold">
+                {farmerProfile?.totalArea || 0} {farmerProfile?.areaUnit || 'acre'}
+                {Number(farmerProfile?.totalArea) === 1 ? '' : 's'}
+              </p>
+            </div>
+            <span className="inline-flex items-center gap-1 text-xs text-accent">
+              <FiTrendingUp size={12} />
+              {allocated}% used
+            </span>
+          </div>
+          <PieChart3D data={pieData} size={300} depth={28} onSliceClick={goToCrop} />
+          <p className="text-dark-muted text-xs text-center mt-3">
+            Tap a slice to open crop details
+          </p>
         </div>
 
-        {/* Right: content */}
-        <div>
-          <div className="mb-8">
-            <h1 className="text-3xl md:text-4xl font-light text-white">Crop</h1>
-            <h2 className="text-3xl md:text-4xl font-bold text-white">Management</h2>
-          </div>
-
-          <div className="space-y-4">
-            {crops.map((crop) => {
-              const hasInsights = !!crop.aiInsights;
-              const isOpen = expanded === crop.id;
-              return (
-                <div key={crop.id} className="glass-card overflow-hidden">
-                  <div className="p-4 flex items-center gap-4 group">
-                    <div className={`w-3 h-3 rounded-full ${statusColor(crop.status)} shrink-0`} />
-                    <button
-                      type="button"
-                      onClick={() => hasInsights && toggle(crop.id)}
-                      className={`flex-1 min-w-0 text-left bg-transparent border-none p-0 ${hasInsights ? 'cursor-pointer' : 'cursor-default'}`}
-                    >
-                      <p className="text-white text-sm font-medium flex items-center gap-2">
-                        <span className="truncate">
-                          {crop.name} – {crop.status}, planted {crop.plantedDate}
-                        </span>
-                        {hasInsights && (
-                          <span className="inline-flex items-center gap-1 text-accent text-xs shrink-0">
-                            <FiZap size={11} /> AI
-                          </span>
-                        )}
-                      </p>
-                      <p className="text-dark-muted text-xs">
-                        harvest {crop.harvestDate}
-                      </p>
-                    </button>
-                    {hasInsights && (
-                      <FiChevronDown
-                        size={14}
-                        className={`text-dark-muted transition-transform ${isOpen ? 'rotate-180' : ''}`}
-                      />
-                    )}
-                    <button
-                      onClick={() => deleteCrop(crop.id)}
-                      className="text-dark-muted hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100"
-                      aria-label={`Delete ${crop.name}`}
-                    >
-                      <FiTrash2 size={16} />
-                    </button>
-                  </div>
-
-                  {hasInsights && isOpen && (
-                    <div className="px-4 pb-4 pt-1 border-t border-dark-border space-y-3">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                        <div className="flex items-center gap-2 text-dark-text">
-                          <FiCalendar className="text-accent" size={12} />
-                          Harvest by {crop.aiInsights.harvestDate}
-                        </div>
-                        <div className="flex items-center gap-2 text-dark-text">
-                          <FiDroplet className="text-accent" size={12} />
-                          Water {crop.aiInsights.wateringPerWeek}× per week
-                        </div>
-                      </div>
-
-                      <div>
-                        <p className="text-dark-muted text-xs uppercase tracking-wider mb-2">Growth stages</p>
-                        <ol className="space-y-1">
-                          {crop.aiInsights.stages.map((stage, i) => (
-                            <li key={i} className="flex items-center justify-between text-xs">
-                              <span className="text-dark-text">{i + 1}. {stage.name}</span>
-                              <span className="text-dark-muted">until {stage.endDate}</span>
-                            </li>
-                          ))}
-                        </ol>
-                      </div>
-
-                      {crop.aiInsights.note && (
-                        <p className="text-dark-muted text-xs italic">{crop.aiInsights.note}</p>
-                      )}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-
+        {/* Horizontal crop list */}
+        <div className="lg:col-span-3">
+          <div className="flex items-center justify-between mb-3">
+            <p className="text-dark-muted text-xs uppercase tracking-wider">Your crops</p>
             <Link
               to="/dashboard/crops/add"
-              className="glass-card p-4 flex items-center gap-3 text-accent text-sm hover:bg-accent/5 transition-colors no-underline"
+              className="inline-flex items-center gap-1.5 text-accent text-xs hover:underline no-underline"
             >
-              <div className="w-3 h-3 rounded-full bg-accent/40" />
-              <FiPlus size={14} />
-              Add New Crop
+              <FiPlus size={12} /> Add Crop
             </Link>
+          </div>
+
+          {crops.length === 0 ? (
+            <div className="glass-card p-5 text-center text-dark-muted">
+              No crops yet. Add your first one.
+            </div>
+          ) : (
+            <div className="flex gap-4 overflow-x-auto pb-3 -mx-1 px-1">
+              {crops.map((c, i) => (
+                <button
+                  key={c.id}
+                  type="button"
+                  onClick={() => navigate(`/dashboard/crops/${c.id}`)}
+                  className="shrink-0 w-44 rounded-2xl overflow-hidden border border-dark-border bg-dark-card hover:border-accent/60 transition-all hover:scale-[1.03] hover:shadow-[0_8px_24px_rgba(45,212,191,0.18)] text-left"
+                >
+                  <div className="h-28 relative bg-accent/10">
+                    {c.image ? (
+                      <img src={c.image} alt={c.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-accent">
+                        <GiPlantSeed size={36} />
+                      </div>
+                    )}
+                    <span
+                      className="absolute top-2 left-2 w-2.5 h-2.5 rounded-full"
+                      style={{ background: PIE_PALETTE[i % PIE_PALETTE.length] }}
+                    />
+                  </div>
+                  <div className="p-3">
+                    <p className="text-white text-sm font-semibold truncate">{c.name}</p>
+                    <p className="text-dark-muted text-xs">{c.currentStage || c.status}</p>
+                    <div className="flex items-center justify-between mt-2">
+                      <span className="text-accent text-xs font-medium">{c.areaPercent || 0}%</span>
+                      <span className="text-dark-muted text-[10px]">{(c.expenses?.length || 0)} expenses</span>
+                    </div>
+                  </div>
+                </button>
+              ))}
+
+              {/* Add crop tile */}
+              <Link
+                to="/dashboard/crops/add"
+                className="shrink-0 w-44 rounded-2xl border-2 border-dashed border-dark-border hover:border-accent/60 flex flex-col items-center justify-center gap-2 text-dark-muted hover:text-accent transition-all no-underline"
+              >
+                <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center">
+                  <FiPlus size={20} />
+                </div>
+                <span className="text-xs font-medium">Add Crop</span>
+              </Link>
+            </div>
+          )}
+
+          {/* Quick stats */}
+          <div className="grid grid-cols-3 gap-3 mt-5">
+            <div className="glass-card p-3">
+              <p className="text-dark-muted text-[10px] uppercase tracking-wider">Active</p>
+              <p className="text-white text-lg font-bold">
+                {crops.filter((c) => c.status !== 'Harvested').length}
+              </p>
+            </div>
+            <div className="glass-card p-3">
+              <p className="text-dark-muted text-[10px] uppercase tracking-wider">Total spent</p>
+              <p className="text-white text-lg font-bold">
+                ₹{crops.reduce((s, c) => s + (c.expenses?.reduce((a, e) => a + (e.amount || 0), 0) || 0), 0)}
+              </p>
+            </div>
+            <div className="glass-card p-3">
+              <p className="text-dark-muted text-[10px] uppercase tracking-wider">Total earned</p>
+              <p className="text-white text-lg font-bold">
+                ₹{crops.reduce((s, c) => s + (c.sales?.reduce((a, e) => a + (e.amount || 0), 0) || 0), 0)}
+              </p>
+            </div>
           </div>
         </div>
       </div>

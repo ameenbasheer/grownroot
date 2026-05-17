@@ -14,9 +14,12 @@ import RegisterPage from '../pages/RegisterPage';
 import FarmerDashboard from '../pages/farmer/FarmerDashboard';
 import CropManagement from '../pages/farmer/CropManagement';
 import AddCrop from '../pages/farmer/AddCrop';
+import CropDetail from '../pages/farmer/CropDetail';
 import CropSuggestions from '../pages/farmer/CropSuggestions';
 import DiseaseDetection from '../pages/farmer/DiseaseDetection';
 import WeatherPage from '../pages/farmer/WeatherPage';
+import FarmerOnboarding from '../pages/farmer/FarmerOnboarding';
+import FarmerCalendar from '../pages/farmer/FarmerCalendar';
 
 // Marketplace pages
 import MarketplacePage from '../pages/marketplace/MarketplacePage';
@@ -39,6 +42,11 @@ export default function AppRoutes() {
 
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route path="/onboarding" element={
+        <FarmerRoute>
+          <FarmerOnboarding />
+        </FarmerRoute>
+      } />
 
       {/* Marketplace & Weather (public — browse without login) */}
       <Route element={<MainLayout />}>
@@ -61,6 +69,8 @@ export default function AppRoutes() {
         <Route index element={<FarmerDashboard />} />
         <Route path="crops" element={<CropManagement />} />
         <Route path="crops/add" element={<AddCrop />} />
+        <Route path="crops/:id" element={<CropDetail />} />
+        <Route path="calendar" element={<FarmerCalendar />} />
         <Route path="suggest" element={<CropSuggestions />} />
         <Route path="disease" element={<DiseaseDetection />} />
         <Route path="weather" element={<WeatherPage />} />

@@ -273,6 +273,51 @@ function formatDate(date) {
   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
 
+// Returns 3-4 actionable, crop-aware improvement tips for a crop already in
+// the field. Looks at name + current stage + (optional) weather + notes.
+export async function suggestCropImprovements({ name, currentStage, weather, notes }) {
+  await new Promise((r) => setTimeout(r, 600));
+  const crop = findCrop(name);
+  const tips = [];
+
+  if (crop) {
+    tips.push(crop.note);
+    if (currentStage === 'Flowering' || currentStage === 'Fruiting') {
+      tips.push(`At ${currentStage.toLowerCase()}, water consistently — ${crop.wateringPerWeek}× per week prevents fruit drop.`);
+    }
+    if (currentStage === 'Germination' || currentStage === 'Seedling') {
+      tips.push('Keep soil consistently moist and shield young plants from harsh midday sun.');
+    }
+    if (currentStage === 'Maturity' || currentStage === 'Harvested') {
+      tips.push('Inspect for pests one final time and harvest in cool morning hours for best shelf life.');
+    }
+  } else {
+    tips.push(`No specific data for "${name}" — apply a balanced NPK fertilizer at the current stage.`);
+  }
+
+  if (weather?.temperature != null && crop) {
+    const [lo, hi] = crop.tempRange;
+    if (weather.temperature > hi) {
+      tips.push(`Temperatures above ${hi}°C stress this crop — mulch heavily and water in early morning.`);
+    } else if (weather.temperature < lo) {
+      tips.push(`Below ${lo}°C is too cool — consider row covers overnight.`);
+    }
+  }
+  if (weather?.rainfall != null && crop) {
+    const [, rhi] = crop.rainfallRange;
+    if (weather.rainfall > rhi) {
+      tips.push('Recent rainfall is high — improve drainage to avoid root rot.');
+    }
+  }
+
+  if (notes && /yellow|wilt|spot/i.test(notes)) {
+    tips.push('Your notes mention yellowing/wilting/spots — inspect leaves for fungal disease and isolate affected plants.');
+  }
+
+  // Deduplicate, drop empties, cap to 4
+  return [...new Set(tips.filter(Boolean))].slice(0, 4);
+}
+
 // Returns AI-generated insights for a single crop given its name + planted date.
 // Falls back to a generic schedule when the crop isn't in the library.
 export async function analyzeCrop({ name, plantedDate }) {
