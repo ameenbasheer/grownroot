@@ -20,12 +20,12 @@ export default function MarketplacePage() {
     <div className="min-h-screen bg-gradient-dark relative overflow-hidden">
       <DecorativeCircle size="xl" className="-bottom-40 -left-40 opacity-15" />
 
-      <div className="max-w-7xl mx-auto px-8 md:px-16 lg:px-24 py-8 relative z-10">
+      <div className="w-full px-8 md:px-16 lg:px-24 py-8 relative z-10">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-4">
           <div>
-            <h1 className="text-4xl md:text-5xl font-light text-white">Marketplace</h1>
-            <h2 className="text-4xl md:text-5xl font-bold text-white">Browse Products</h2>
+            <h1 className="text-4xl md:text-5xl font-light text-dark-text">Marketplace</h1>
+            <h2 className="text-[11px] font-bold text-dark-text">Browse Products</h2>
           </div>
           <div className="flex items-center gap-4">
             <SearchBar
@@ -45,32 +45,18 @@ export default function MarketplacePage() {
           </div>
         </div>
 
-        {/* Intro section */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-10">
-          <div className="lg:col-span-1">
-            <div className="text-center lg:text-left mb-6">
-              <span className="text-6xl block mb-4">🧺</span>
-            </div>
-            <p className="text-dark-muted text-sm leading-relaxed">
-              Browse fresh produce directly from local farmers.
-              Quality guaranteed with farm-to-table freshness.
-            </p>
-          </div>
-
-          <div className="lg:col-span-3">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filtered.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-
-            {filtered.length === 0 && (
-              <div className="text-center py-16">
-                <p className="text-dark-muted text-lg">No products found.</p>
-              </div>
-            )}
-          </div>
+        {/* Product grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          {filtered.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
         </div>
+
+        {filtered.length === 0 && (
+          <div className="text-center py-16">
+            <p className="text-dark-muted text-lg">No products found.</p>
+          </div>
+        )}
       </div>
     </div>
   );

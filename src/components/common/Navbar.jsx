@@ -1,7 +1,7 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { FiLogOut, FiUser, FiShoppingBag, FiCloudRain, FiGrid } from 'react-icons/fi';
 import { useAuth } from '../../context/AuthContext';
-import logo from '../../assets/logo.png';
+import logo from '../../assets/logo-green.png';
 
 export default function Navbar() {
   const { isAuthenticated, user, logout } = useAuth();
@@ -17,7 +17,7 @@ export default function Navbar() {
     `nav-tab !px-3 ${isActive ? 'active' : ''}`;
 
   return (
-    <nav className="w-full flex items-center justify-between py-3 px-3 relative z-10">
+    <nav className="w-full flex items-center justify-between pb-3 relative z-10">
       <Link to="/" className="flex items-center">
         <img src={logo} alt="GrownRoot" className="h-15 w-auto object-contain" />
       </Link>
@@ -53,7 +53,7 @@ export default function Navbar() {
 
         {isAuthenticated ? (
           <div className="flex items-center gap-3">
-            <span className="text-white text-sm hidden lg:block">
+            <span className="text-dark-text text-sm hidden lg:block">
               {user?.name}
             </span>
             <button

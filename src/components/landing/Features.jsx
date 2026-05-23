@@ -26,9 +26,9 @@ const features = [
 
 export default function Features() {
   return (
-    <section className="py-20 relative">
+    <section className="py-20 relative pb-5 mb-5">
       <div className="text-center mb-10">
-        <h2 className="text-3xl md:text-4xl font-bold text-white leading-tight mt-5 ">
+        <h2 className="text-3xl md:text-4xl font-bold text-dark-text leading-tight mt-5 ">
           Everything You Need
         </h2>
         <p className="text-dark-muted text-sm max-w-xl mx-auto mb-5">
@@ -42,7 +42,7 @@ export default function Features() {
             <div className="w-14 h-14 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-5 text-accent group-hover:bg-accent/20 transition-colors">
               {feature.icon}
             </div>
-            <h3 className="text-white font-semibold text-lg mb-3">{feature.title}</h3>
+            <h3 className="text-dark-text font-semibold text-lg mb-3">{feature.title}</h3>
             <p className="text-dark-muted text-sm leading-relaxed">{feature.description}</p>
           </Card>
         ))}

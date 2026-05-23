@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { FiX } from 'react-icons/fi';
-import logo from '../../assets/logo.png';
+import logo from '../../assets/logo-green.png';
 
 export default function MobileSidebar({ links = [], isOpen, onClose }) {
   if (!isOpen) return null;

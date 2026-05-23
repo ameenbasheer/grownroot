@@ -16,7 +16,7 @@ import {
 } from 'react-icons/fi';
 import { GiFarmer } from 'react-icons/gi';
 import { useAuth } from '../context/AuthContext';
-import logo from '../assets/logo.png';
+import logo from '../assets/logo-green.png';
 import Images from '../assets/images';
 
 const ROLES = [

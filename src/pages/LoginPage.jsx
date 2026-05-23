@@ -13,7 +13,7 @@ import {
   FiArrowLeft,
 } from 'react-icons/fi';
 import { useAuth } from '../context/AuthContext';
-import logo from '../assets/logo.png';
+import logo from '../assets/logo-green.png';
 import farmImage from '../assets/farm_illustration2.jpg';
 import Images from '../assets/images';
 
@@ -48,7 +48,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-dark flex items-center justify-center px-4 py-8 relative overflow-hidden">
+    <div className="min-h-screen section-band-green flex items-center justify-center px-4 py-8 relative overflow-hidden">
       {/* ambient glow */}
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full bg-accent/10 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] rounded-full bg-primary/20 blur-[120px] pointer-events-none" />

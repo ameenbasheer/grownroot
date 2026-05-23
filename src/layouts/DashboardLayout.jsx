@@ -20,7 +20,7 @@ export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gradient-dark flex">
+    <div className="min-h-screen bg-gradient-dark flex pe-4">
       <Sidebar links={farmerLinks} />
       <MobileSidebar
         links={farmerLinks}

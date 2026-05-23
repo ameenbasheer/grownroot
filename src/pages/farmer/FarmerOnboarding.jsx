@@ -17,7 +17,7 @@ import { useAuth } from '../../context/AuthContext';
 import { CROP_STAGES } from '../../reducers/appReducer';
 import PieChart3D, { PIE_PALETTE } from '../../components/common/PieChart3D';
 import Images from '../../assets/images';
-import logo from '../../assets/logo.png';
+import logo from '../../assets/logo-green.png';
 
 const SOIL_TYPES = [
   { id: 'loam', label: 'Loam', image: Images.soilLoam },

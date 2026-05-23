@@ -155,7 +155,7 @@ export default function FarmerDashboard() {
   ).length;
 
   return (
-    <div className="relative mx-3">
+    <div className="relative ">
       <DecorativeCircle size="lg" className="-top-20 -left-20 opacity-15" />
       <DecorativeCircle size="md" className="top-1/2 -right-10 opacity-10" />
       <DecorativeDot size={14} className="top-24 right-1/3 bg-accent/30" />
