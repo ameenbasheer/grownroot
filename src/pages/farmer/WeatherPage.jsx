@@ -1,6 +1,5 @@
 import { FiSun, FiDroplet, FiCloudRain, FiWind } from 'react-icons/fi';
 import { useApp } from '../../context/AppContext';
-import { DecorativeCircle } from '../../components/common/DecorativeElements';
 
 const forecastDays = [
   { day: 'Mon', temp: 28, icon: <FiSun />, condition: 'Sunny' },
@@ -14,36 +13,34 @@ export default function WeatherPage() {
   const { weather } = useApp();
 
   return (
-    <div className="relative">
-      <DecorativeCircle size="lg" className="-top-32 -left-32 opacity-15" />
-
+    <div className="relative ">
       {/* Top: Two image cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 relative z-10">
-        <div className="img-showcase h-64 bg-gradient-to-br from-accent/8 to-primary/10 flex items-center justify-center">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5 relative z-10">
+        <div className="rounded-3xl border border-light-border bg-gradient-to-br from-accent/8 to-primary/10 h-64 flex items-center justify-center">
           <div className="text-center">
             <span className="text-5xl block mb-3">📱</span>
-            <p className="text-dark-muted text-xs">Mobile Weather App</p>
+            <p className="text-light-muted text-xs">Mobile Weather App</p>
           </div>
         </div>
-        <div className="img-showcase h-64 bg-gradient-to-br from-accent/5 to-primary/10 flex items-center justify-center">
+        <div className="rounded-3xl border border-light-border bg-gradient-to-br from-accent/5 to-primary/10 h-64 flex items-center justify-center">
           <div className="text-center">
             <span className="text-5xl block mb-3">🖥️</span>
-            <p className="text-dark-muted text-xs">Weather Dashboard</p>
+            <p className="text-light-muted text-xs">Weather Dashboard</p>
           </div>
         </div>
       </div>
 
       {/* Bottom: Info row */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 relative z-10">
         {/* Title */}
         <div>
-          <h1 className="text-3xl md:text-4xl font-light text-white">Weather</h1>
+          <h1 className="text-3xl md:text-4xl font-light text-light-text">Weather</h1>
           <h2 className="text-3xl md:text-4xl font-bold text-accent">Forecast</h2>
         </div>
 
         {/* Description */}
         <div className="flex items-center">
-          <p className="text-dark-muted text-sm leading-relaxed">
+          <p className="text-light-muted text-sm leading-relaxed">
             Stay informed with real-time weather updates for your farm. Monitor temperature,
             rainfall predictions, and humidity levels to plan your agricultural activities effectively.
           </p>
@@ -66,41 +63,41 @@ export default function WeatherPage() {
       </div>
 
       {/* 5-day forecast */}
-      <div className="mt-8 relative z-10">
-        <h3 className="text-white font-semibold text-lg mb-4">5-Day Forecast</h3>
+      <div className="mt-5 relative z-10">
+        <h3 className="text-light-text font-semibold text-lg mb-4">5-Day Forecast</h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
           {forecastDays.map((day) => (
-            <div key={day.day} className="glass-card p-4 text-center stat-card">
-              <p className="text-dark-muted text-xs mb-2">{day.day}</p>
+            <div key={day.day} className="rounded-2xl border border-light-border bg-white p-4 text-center hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(22,163,74,0.12)] transition-all">
+              <p className="text-light-muted text-xs mb-2">{day.day}</p>
               <div className="text-accent text-2xl mb-2 flex justify-center">{day.icon}</div>
-              <p className="text-white font-bold text-lg">{day.temp}°C</p>
-              <p className="text-dark-muted text-xs">{day.condition}</p>
+              <p className="text-light-text font-bold text-lg">{day.temp}°C</p>
+              <p className="text-light-muted text-xs">{day.condition}</p>
             </div>
           ))}
         </div>
       </div>
 
       {/* Additional weather details */}
-      <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 relative z-10">
-        <div className="glass-card p-5 flex items-center gap-4">
+      <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-4 relative z-10">
+        <div className="rounded-2xl border border-light-border bg-white p-5 flex items-center gap-4">
           <FiWind className="text-accent" size={24} />
           <div>
-            <p className="text-dark-muted text-xs">Wind Speed</p>
-            <p className="text-white font-bold">12 km/h</p>
+            <p className="text-light-muted text-xs">Wind Speed</p>
+            <p className="text-light-text font-bold">12 km/h</p>
           </div>
         </div>
-        <div className="glass-card p-5 flex items-center gap-4">
+        <div className="rounded-2xl border border-light-border bg-white p-5 flex items-center gap-4">
           <FiSun className="text-accent" size={24} />
           <div>
-            <p className="text-dark-muted text-xs">UV Index</p>
-            <p className="text-white font-bold">6 (High)</p>
+            <p className="text-light-muted text-xs">UV Index</p>
+            <p className="text-light-text font-bold">6 (High)</p>
           </div>
         </div>
-        <div className="glass-card p-5 flex items-center gap-4">
+        <div className="rounded-2xl border border-light-border bg-white p-5 flex items-center gap-4">
           <FiDroplet className="text-accent" size={24} />
           <div>
-            <p className="text-dark-muted text-xs">Soil Moisture</p>
-            <p className="text-white font-bold">42%</p>
+            <p className="text-light-muted text-xs">Soil Moisture</p>
+            <p className="text-light-text font-bold">42%</p>
           </div>
         </div>
       </div>

@@ -4,6 +4,7 @@ import { FiHome, FiUsers, FiPackage, FiMenu, FiSettings } from 'react-icons/fi';
 import Sidebar from '../components/common/Sidebar';
 import MobileSidebar from '../components/common/MobileSidebar';
 import Navbar from '../components/common/Navbar';
+import PageTransition from '../components/common/PageTransition';
 
 const adminLinks = [
   { to: '/admin', label: 'Dashboard', icon: <FiHome />, end: true },
@@ -37,7 +38,9 @@ export default function AdminLayout() {
           <Navbar />
         </div>
         <main className="flex-1 p-6 md:p-8 lg:p-10">
-          <Outlet />
+          <PageTransition>
+            <Outlet />
+          </PageTransition>
         </main>
       </div>
     </div>

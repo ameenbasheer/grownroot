@@ -139,7 +139,7 @@ export default function LandingPage() {
               <FiArrowRight size={14} />
             </Link>
           </div>
-        </div>
+        </div>    
       </section>
 
       {/* Today's Weather — LIGHT */}

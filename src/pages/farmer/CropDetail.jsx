@@ -26,17 +26,21 @@ function formatDate(iso) {
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
+const CARD = 'rounded-3xl border border-light-border bg-white p-5';
+const INPUT =
+  'w-full bg-white border border-light-border focus:border-accent rounded-xl px-3 py-2 text-light-text text-sm outline-none placeholder:text-light-muted';
+
 function StageProgress({ current }) {
   const idx = Math.max(0, CROP_STAGES.indexOf(current));
   const pct = ((idx + 1) / CROP_STAGES.length) * 100;
   return (
     <div>
-      <div className="flex items-center justify-between text-xs text-dark-muted mb-1.5">
+      <div className="flex items-center justify-between text-xs text-light-muted mb-1.5">
         <span>{CROP_STAGES[0]}</span>
         <span className="text-accent font-semibold">{current}</span>
         <span>{CROP_STAGES[CROP_STAGES.length - 1]}</span>
       </div>
-      <div className="h-2 bg-dark-card rounded-full overflow-hidden">
+      <div className="h-2 bg-light-border rounded-full overflow-hidden">
         <div
           className="h-full bg-gradient-to-r from-accent/60 to-accent transition-all duration-500"
           style={{ width: `${pct}%` }}
@@ -56,57 +60,57 @@ function EditPanel({ crop, onSave, onCancel }) {
   });
 
   return (
-    <div className="glass-card p-5 border-accent/40 space-y-4">
+    <div className="rounded-3xl border border-accent/40 bg-white p-5 space-y-4">
       <div className="flex items-center justify-between">
-        <p className="text-white text-sm font-semibold">Edit crop</p>
-        <button onClick={onCancel} className="text-dark-muted hover:text-white">
+        <p className="text-light-text text-sm font-semibold">Edit crop</p>
+        <button onClick={onCancel} className="text-light-muted hover:text-light-text">
           <FiX size={16} />
         </button>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
-          <label className="text-dark-muted text-xs block mb-1.5">Name</label>
+          <label className="text-light-muted text-xs block mb-1.5">Name</label>
           <input
             type="text"
             value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}
-            className="w-full bg-dark-card border border-dark-border focus:border-accent rounded-xl px-3 py-2 text-white text-sm outline-none"
+            className={INPUT}
           />
         </div>
         <div>
-          <label className="text-dark-muted text-xs block mb-1.5">Area %</label>
+          <label className="text-light-muted text-xs block mb-1.5">Area %</label>
           <input
             type="number"
             min="0"
             max="100"
             value={form.areaPercent}
             onChange={(e) => setForm({ ...form, areaPercent: e.target.value })}
-            className="w-full bg-dark-card border border-dark-border focus:border-accent rounded-xl px-3 py-2 text-white text-sm outline-none"
+            className={INPUT}
           />
         </div>
         <div>
-          <label className="text-dark-muted text-xs block mb-1.5">Planting date</label>
+          <label className="text-light-muted text-xs block mb-1.5">Planting date</label>
           <input
             type="date"
             value={form.plantingDate}
             onChange={(e) => setForm({ ...form, plantingDate: e.target.value })}
-            className="w-full bg-dark-card border border-dark-border focus:border-accent rounded-xl px-3 py-2 text-white text-sm outline-none"
+            className={INPUT}
           />
         </div>
         <div>
-          <label className="text-dark-muted text-xs block mb-1.5">Harvesting date</label>
+          <label className="text-light-muted text-xs block mb-1.5">Harvesting date</label>
           <input
             type="date"
             value={form.harvestingDate}
             onChange={(e) => setForm({ ...form, harvestingDate: e.target.value })}
-            className="w-full bg-dark-card border border-dark-border focus:border-accent rounded-xl px-3 py-2 text-white text-sm outline-none"
+            className={INPUT}
           />
         </div>
       </div>
 
       <div>
-        <label className="text-dark-muted text-xs block mb-1.5">Current stage</label>
+        <label className="text-light-muted text-xs block mb-1.5">Current stage</label>
         <div className="flex flex-wrap gap-1.5">
           {CROP_STAGES.map((stage) => {
             const sel = form.currentStage === stage;
@@ -116,7 +120,9 @@ function EditPanel({ crop, onSave, onCancel }) {
                 type="button"
                 onClick={() => setForm({ ...form, currentStage: stage })}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition ${
-                  sel ? 'bg-accent text-dark-bg' : 'bg-dark-card text-dark-text border border-dark-border hover:border-accent/40'
+                  sel
+                    ? 'bg-accent text-white'
+                    : 'bg-white text-light-text border border-light-border hover:border-accent/40'
                 }`}
               >
                 {stage}
@@ -130,7 +136,7 @@ function EditPanel({ crop, onSave, onCancel }) {
         <button
           type="button"
           onClick={onCancel}
-          className="px-4 py-2 rounded-full bg-dark-card text-dark-text text-xs border border-dark-border hover:border-accent/40 transition"
+          className="px-4 py-2 rounded-full bg-white text-light-text text-xs border border-light-border hover:border-accent/40 transition"
         >
           Cancel
         </button>
@@ -149,7 +155,7 @@ function EditPanel({ crop, onSave, onCancel }) {
                 : '',
             })
           }
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-accent text-dark-bg text-xs font-semibold hover:shadow-[0_8px_24px_rgba(45,212,191,0.4)] transition"
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-accent text-white text-xs font-semibold hover:shadow-[0_8px_24px_rgba(22,163,74,0.4)] transition"
         >
           <FiSave size={12} /> Save
         </button>
@@ -172,7 +178,7 @@ export default function CropDetail() {
   const [aiLoading, setAiLoading] = useState(false);
 
   const totals = useMemo(() => {
-    if (!crop) return { spent: 0, earned: 0 };
+    if (!crop) return { spent: 0, earned: 0, profit: 0 };
     const spent = (crop.expenses || []).reduce((s, e) => s + (Number(e.amount) || 0), 0);
     const earned = (crop.sales || []).reduce((s, e) => s + (Number(e.amount) || 0), 0);
     return { spent, earned, profit: earned - spent };
@@ -181,7 +187,7 @@ export default function CropDetail() {
   if (!crop) {
     return (
       <div className="text-center py-5">
-        <p className="text-dark-muted mb-4">Crop not found.</p>
+        <p className="text-light-muted mb-4">Crop not found.</p>
         <Link to="/dashboard/crops" className="text-accent">Back to crops</Link>
       </div>
     );
@@ -251,14 +257,14 @@ export default function CropDetail() {
     <div className="relative max-w-5xl mx-auto">
       <Link
         to="/dashboard/crops"
-        className="inline-flex items-center gap-2 text-dark-muted hover:text-accent text-sm mb-5 no-underline"
+        className="inline-flex items-center gap-2 text-light-muted hover:text-accent text-sm mb-5 no-underline"
       >
         <FiArrowLeft size={16} /> Back to crops
       </Link>
 
       {/* Header */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
-        <div className="md:col-span-1 rounded-2xl overflow-hidden border border-dark-border h-56 md:h-full bg-accent/10 relative">
+        <div className="md:col-span-1 rounded-3xl overflow-hidden border border-light-border h-56 md:h-full bg-accent/10 relative">
           {crop.image ? (
             <img src={crop.image} alt={crop.name} className="w-full h-full object-cover" />
           ) : (
@@ -271,24 +277,24 @@ export default function CropDetail() {
           </div>
         </div>
 
-        <div className="md:col-span-2 glass-card p-5 flex flex-col">
+        <div className="md:col-span-2 rounded-3xl border border-light-border bg-white p-5 flex flex-col">
           <div className="flex items-start justify-between gap-3 mb-3">
             <div>
-              <p className="text-dark-muted text-xs uppercase tracking-wider">Crop</p>
-              <h1 className="text-3xl md:text-4xl font-bold text-white">{crop.name}</h1>
+              <p className="text-light-muted text-xs uppercase tracking-wider">Crop</p>
+              <h1 className="text-3xl md:text-4xl font-bold text-light-text">{crop.name}</h1>
             </div>
             <div className="flex gap-2">
               <button
                 type="button"
                 onClick={() => setEditing((e) => !e)}
-                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-accent/15 border border-accent/40 text-accent text-xs font-medium hover:bg-accent hover:text-dark-bg transition"
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full bg-accent/15 border border-accent/40 text-accent text-xs font-medium hover:bg-accent hover:text-white transition"
               >
                 <FiEdit3 size={12} /> Edit
               </button>
               <button
                 type="button"
                 onClick={handleDelete}
-                className="p-2 rounded-full bg-dark-card border border-dark-border text-dark-muted hover:text-red-400 hover:border-red-400/40 transition"
+                className="p-2 rounded-full bg-white border border-light-border text-light-muted hover:text-red-500 hover:border-red-400/40 transition"
                 aria-label="Delete crop"
               >
                 <FiTrash2 size={14} />
@@ -298,20 +304,20 @@ export default function CropDetail() {
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
             <div>
-              <p className="text-dark-muted text-[10px] uppercase tracking-wider">Area</p>
-              <p className="text-white text-sm font-semibold">{crop.areaPercent || 0}%</p>
+              <p className="text-light-muted text-[10px] uppercase tracking-wider">Area</p>
+              <p className="text-light-text text-sm font-semibold">{crop.areaPercent || 0}%</p>
             </div>
             <div>
-              <p className="text-dark-muted text-[10px] uppercase tracking-wider">Status</p>
-              <p className="text-white text-sm font-semibold">{crop.status}</p>
+              <p className="text-light-muted text-[10px] uppercase tracking-wider">Status</p>
+              <p className="text-light-text text-sm font-semibold">{crop.status}</p>
             </div>
             <div>
-              <p className="text-dark-muted text-[10px] uppercase tracking-wider">Spent</p>
-              <p className="text-white text-sm font-semibold">₹{totals.spent}</p>
+              <p className="text-light-muted text-[10px] uppercase tracking-wider">Spent</p>
+              <p className="text-light-text text-sm font-semibold">₹{totals.spent}</p>
             </div>
             <div>
-              <p className="text-dark-muted text-[10px] uppercase tracking-wider">Earned</p>
-              <p className="text-white text-sm font-semibold">₹{totals.earned}</p>
+              <p className="text-light-muted text-[10px] uppercase tracking-wider">Earned</p>
+              <p className="text-light-text text-sm font-semibold">₹{totals.earned}</p>
             </div>
           </div>
 
@@ -337,32 +343,32 @@ export default function CropDetail() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* Dates */}
-        <div className="glass-card p-5">
+        <div className={CARD}>
           <div className="flex items-center gap-2 mb-3">
             <FiCalendar className="text-accent" size={16} />
-            <p className="text-white text-sm font-semibold">Important dates</p>
+            <p className="text-light-text text-sm font-semibold">Important dates</p>
           </div>
           <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-xl bg-dark-card p-3 border border-dark-border">
-              <p className="text-dark-muted text-[10px] uppercase tracking-wider">Planting</p>
-              <p className="text-white text-sm font-semibold mt-1">{formatDate(crop.plantingDate)}</p>
+            <div className="rounded-xl bg-light-bg p-3 border border-light-border">
+              <p className="text-light-muted text-[10px] uppercase tracking-wider">Planting</p>
+              <p className="text-light-text text-sm font-semibold mt-1">{formatDate(crop.plantingDate)}</p>
             </div>
-            <div className="rounded-xl bg-dark-card p-3 border border-dark-border">
-              <p className="text-dark-muted text-[10px] uppercase tracking-wider">Harvesting</p>
-              <p className="text-white text-sm font-semibold mt-1">{formatDate(crop.harvestingDate)}</p>
+            <div className="rounded-xl bg-light-bg p-3 border border-light-border">
+              <p className="text-light-muted text-[10px] uppercase tracking-wider">Harvesting</p>
+              <p className="text-light-text text-sm font-semibold mt-1">{formatDate(crop.harvestingDate)}</p>
             </div>
           </div>
-          <p className="text-dark-muted text-[11px] mt-3">
+          <p className="text-light-muted text-[11px] mt-3">
             Dates show on your <Link to="/dashboard/calendar" className="text-accent hover:underline">farmer calendar</Link>.
           </p>
         </div>
 
         {/* AI suggestions */}
-        <div className="glass-card p-5">
+        <div className={CARD}>
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <FiZap className="text-accent" size={16} />
-              <p className="text-white text-sm font-semibold">AI suggestions</p>
+              <p className="text-light-text text-sm font-semibold">AI suggestions</p>
             </div>
             <button
               type="button"
@@ -374,38 +380,38 @@ export default function CropDetail() {
             </button>
           </div>
           {aiTips.length === 0 && !crop.aiSuggestion && (
-            <p className="text-dark-muted text-xs">
+            <p className="text-light-muted text-xs">
               Click "Generate" to get tailored, stage-aware tips for this crop.
             </p>
           )}
           {(aiTips.length > 0 ? aiTips : crop.aiSuggestion ? crop.aiSuggestion.split(' • ') : []).map((tip, i) => (
             <div key={i} className="flex gap-2 mb-2 last:mb-0">
               <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2 shrink-0" />
-              <p className="text-dark-text text-xs leading-relaxed">{tip}</p>
+              <p className="text-light-text text-xs leading-relaxed">{tip}</p>
             </div>
           ))}
         </div>
 
         {/* Expenses */}
-        <div className="glass-card p-5">
+        <div className={CARD}>
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <FiTrendingDown className="text-red-400" size={16} />
-              <p className="text-white text-sm font-semibold">Expenses</p>
+              <FiTrendingDown className="text-red-500" size={16} />
+              <p className="text-light-text text-sm font-semibold">Expenses</p>
             </div>
-            <p className="text-red-400 text-sm font-bold">₹{totals.spent}</p>
+            <p className="text-red-500 text-sm font-bold">₹{totals.spent}</p>
           </div>
           <ul className="space-y-1.5 mb-3 max-h-44 overflow-y-auto">
             {(crop.expenses || []).length === 0 && (
-              <li className="text-dark-muted text-xs">No expenses yet.</li>
+              <li className="text-light-muted text-xs">No expenses yet.</li>
             )}
             {(crop.expenses || []).map((e) => (
-              <li key={e.id} className="flex items-center justify-between text-xs py-1.5 px-2 rounded-lg bg-dark-card/40">
+              <li key={e.id} className="flex items-center justify-between text-xs py-1.5 px-2 rounded-lg bg-light-bg">
                 <div>
-                  <p className="text-white">{e.label}</p>
-                  <p className="text-dark-muted text-[10px]">{formatDate(e.date)}</p>
+                  <p className="text-light-text">{e.label}</p>
+                  <p className="text-light-muted text-[10px]">{formatDate(e.date)}</p>
                 </div>
-                <span className="text-red-300 font-medium">₹{e.amount}</span>
+                <span className="text-red-500 font-medium">₹{e.amount}</span>
               </li>
             ))}
           </ul>
@@ -415,24 +421,24 @@ export default function CropDetail() {
               placeholder="Label"
               value={expenseForm.label}
               onChange={(e) => setExpenseForm({ ...expenseForm, label: e.target.value })}
-              className="col-span-5 bg-dark-card border border-dark-border focus:border-accent rounded-lg px-2.5 py-2 text-white text-xs outline-none placeholder:text-dark-muted"
+              className="col-span-5 bg-white border border-light-border focus:border-accent rounded-lg px-2.5 py-2 text-light-text text-xs outline-none placeholder:text-light-muted"
             />
             <input
               type="number"
               placeholder="₹"
               value={expenseForm.amount}
               onChange={(e) => setExpenseForm({ ...expenseForm, amount: e.target.value })}
-              className="col-span-3 bg-dark-card border border-dark-border focus:border-accent rounded-lg px-2.5 py-2 text-white text-xs outline-none placeholder:text-dark-muted"
+              className="col-span-3 bg-white border border-light-border focus:border-accent rounded-lg px-2.5 py-2 text-light-text text-xs outline-none placeholder:text-light-muted"
             />
             <input
               type="date"
               value={expenseForm.date}
               onChange={(e) => setExpenseForm({ ...expenseForm, date: e.target.value })}
-              className="col-span-3 bg-dark-card border border-dark-border focus:border-accent rounded-lg px-1.5 py-2 text-white text-xs outline-none"
+              className="col-span-3 bg-white border border-light-border focus:border-accent rounded-lg px-1.5 py-2 text-light-text text-xs outline-none"
             />
             <button
               type="submit"
-              className="col-span-1 bg-accent text-dark-bg rounded-lg flex items-center justify-center hover:shadow-[0_4px_12px_rgba(45,212,191,0.35)] transition"
+              className="col-span-1 bg-accent text-white rounded-lg flex items-center justify-center hover:shadow-[0_4px_12px_rgba(22,163,74,0.35)] transition"
               aria-label="Add expense"
             >
               <FiPlus size={14} />
@@ -441,25 +447,25 @@ export default function CropDetail() {
         </div>
 
         {/* Sales */}
-        <div className="glass-card p-5">
+        <div className={CARD}>
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <FiTrendingUp className="text-green-400" size={16} />
-              <p className="text-white text-sm font-semibold">Sales</p>
+              <FiTrendingUp className="text-accent" size={16} />
+              <p className="text-light-text text-sm font-semibold">Sales</p>
             </div>
-            <p className="text-green-400 text-sm font-bold">₹{totals.earned}</p>
+            <p className="text-accent text-sm font-bold">₹{totals.earned}</p>
           </div>
           <ul className="space-y-1.5 mb-3 max-h-44 overflow-y-auto">
             {(crop.sales || []).length === 0 && (
-              <li className="text-dark-muted text-xs">No sales yet.</li>
+              <li className="text-light-muted text-xs">No sales yet.</li>
             )}
             {(crop.sales || []).map((e) => (
-              <li key={e.id} className="flex items-center justify-between text-xs py-1.5 px-2 rounded-lg bg-dark-card/40">
+              <li key={e.id} className="flex items-center justify-between text-xs py-1.5 px-2 rounded-lg bg-light-bg">
                 <div>
-                  <p className="text-white">{e.label}</p>
-                  <p className="text-dark-muted text-[10px]">{formatDate(e.date)}</p>
+                  <p className="text-light-text">{e.label}</p>
+                  <p className="text-light-muted text-[10px]">{formatDate(e.date)}</p>
                 </div>
-                <span className="text-green-300 font-medium">₹{e.amount}</span>
+                <span className="text-accent font-medium">₹{e.amount}</span>
               </li>
             ))}
           </ul>
@@ -469,24 +475,24 @@ export default function CropDetail() {
               placeholder="Buyer / channel"
               value={saleForm.label}
               onChange={(e) => setSaleForm({ ...saleForm, label: e.target.value })}
-              className="col-span-5 bg-dark-card border border-dark-border focus:border-accent rounded-lg px-2.5 py-2 text-white text-xs outline-none placeholder:text-dark-muted"
+              className="col-span-5 bg-white border border-light-border focus:border-accent rounded-lg px-2.5 py-2 text-light-text text-xs outline-none placeholder:text-light-muted"
             />
             <input
               type="number"
               placeholder="₹"
               value={saleForm.amount}
               onChange={(e) => setSaleForm({ ...saleForm, amount: e.target.value })}
-              className="col-span-3 bg-dark-card border border-dark-border focus:border-accent rounded-lg px-2.5 py-2 text-white text-xs outline-none placeholder:text-dark-muted"
+              className="col-span-3 bg-white border border-light-border focus:border-accent rounded-lg px-2.5 py-2 text-light-text text-xs outline-none placeholder:text-light-muted"
             />
             <input
               type="date"
               value={saleForm.date}
               onChange={(e) => setSaleForm({ ...saleForm, date: e.target.value })}
-              className="col-span-3 bg-dark-card border border-dark-border focus:border-accent rounded-lg px-1.5 py-2 text-white text-xs outline-none"
+              className="col-span-3 bg-white border border-light-border focus:border-accent rounded-lg px-1.5 py-2 text-light-text text-xs outline-none"
             />
             <button
               type="submit"
-              className="col-span-1 bg-accent text-dark-bg rounded-lg flex items-center justify-center hover:shadow-[0_4px_12px_rgba(45,212,191,0.35)] transition"
+              className="col-span-1 bg-accent text-white rounded-lg flex items-center justify-center hover:shadow-[0_4px_12px_rgba(22,163,74,0.35)] transition"
               aria-label="Add sale"
             >
               <FiPlus size={14} />
@@ -495,28 +501,28 @@ export default function CropDetail() {
         </div>
 
         {/* Profit report */}
-        <div className="glass-card p-5">
+        <div className={CARD}>
           <div className="flex items-center gap-2 mb-3">
             <FiDollarSign className="text-accent" size={16} />
-            <p className="text-white text-sm font-semibold">Profit report</p>
+            <p className="text-light-text text-sm font-semibold">Profit report</p>
           </div>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
-              <span className="text-dark-muted">Total earned</span>
-              <span className="text-green-300 font-semibold">₹{totals.earned}</span>
+              <span className="text-light-muted">Total earned</span>
+              <span className="text-accent font-semibold">₹{totals.earned}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-dark-muted">Total spent</span>
-              <span className="text-red-300 font-semibold">₹{totals.spent}</span>
+              <span className="text-light-muted">Total spent</span>
+              <span className="text-red-500 font-semibold">₹{totals.spent}</span>
             </div>
-            <div className="border-t border-dark-border pt-2 flex justify-between">
-              <span className="text-white font-medium">Net profit</span>
-              <span className={`text-lg font-bold ${totals.profit >= 0 ? 'text-accent' : 'text-red-400'}`}>
+            <div className="border-t border-light-border pt-2 flex justify-between">
+              <span className="text-light-text font-medium">Net profit</span>
+              <span className={`text-lg font-bold ${totals.profit >= 0 ? 'text-accent' : 'text-red-500'}`}>
                 ₹{totals.profit}
               </span>
             </div>
             {totals.spent > 0 && (
-              <p className="text-dark-muted text-[11px] pt-1">
+              <p className="text-light-muted text-[11px] pt-1">
                 ROI: {((totals.profit / totals.spent) * 100).toFixed(0)}%
               </p>
             )}
@@ -524,9 +530,9 @@ export default function CropDetail() {
         </div>
 
         {/* Notes */}
-        <div className="glass-card p-5">
+        <div className={CARD}>
           <div className="flex items-center justify-between mb-3">
-            <p className="text-white text-sm font-semibold">Field notes</p>
+            <p className="text-light-text text-sm font-semibold">Field notes</p>
             <button
               type="button"
               onClick={saveNote}
@@ -540,7 +546,7 @@ export default function CropDetail() {
             onChange={(e) => setNoteDraft(e.target.value)}
             placeholder="Anything you want to remember — pest sightings, weather impact, ideas for next season..."
             rows={5}
-            className="w-full bg-dark-card border border-dark-border focus:border-accent rounded-xl px-3 py-2 text-white text-xs outline-none resize-none placeholder:text-dark-muted"
+            className="w-full bg-white border border-light-border focus:border-accent rounded-xl px-3 py-2 text-light-text text-xs outline-none resize-none placeholder:text-light-muted"
           />
         </div>
       </div>

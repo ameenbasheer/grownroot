@@ -13,9 +13,11 @@ import {
   FiArrowLeft,
 } from 'react-icons/fi';
 import { useAuth } from '../context/AuthContext';
-import logo from '../assets/logo-green.png';
+import logo from '../assets/logo.png';
+import logoGreen from '../assets/logo-green.png';
 import farmImage from '../assets/farm_illustration2.jpg';
 import Images from '../assets/images';
+import DecorativeElements from '../components/common/DecorativeElements';
 
 const HIGHLIGHTS = [
   { Icon: FiTrendingUp, label: 'Track crops & yields' },
@@ -48,10 +50,18 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen section-band-green flex items-center justify-center px-4 py-8 relative overflow-hidden">
+    <div
+      className="min-h-screen flex items-center justify-center px-4 py-8 relative overflow-hidden"
+      style={{
+        background:
+          'radial-gradient(900px 400px at 80% 0%, rgba(74, 222, 128, 0.18), transparent 60%), linear-gradient(135deg, #1A4D2E 0%, #143E25 100%)',
+      }}
+    >
       {/* ambient glow */}
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] rounded-full bg-accent/10 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] rounded-full bg-primary/20 blur-[120px] pointer-events-none" />
+
+      <DecorativeElements />
 
       <div className="w-full max-w-5xl relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 rounded-3xl overflow-hidden shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)] border border-dark-border bg-dark-surface backdrop-blur-xl">
@@ -100,16 +110,16 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* Right: form panel */}
-          <div className="bg-dark-bg/40 p-5  flex flex-col justify-center">
+          {/* Right: form panel — LIGHT */}
+          <div className="bg-light-surface p-5 flex flex-col justify-center">
             {/* mobile-only logo */}
             <Link to="/" className="lg:hidden inline-flex items-center justify-center mb-8 no-underline">
-              <img src={logo} alt="GrownRoot" className="h-9 w-auto object-contain" />
+              <img src={logoGreen} alt="GrownRoot" className="h-9 w-auto object-contain" />
             </Link>
 
             <div className="mb-8">
-              <h2 className="text-2xl font-semibold text-white mb-1.5">Sign in</h2>
-              <p className="text-dark-muted text-sm">
+              <h2 className="text-2xl font-semibold text-light-text mb-1.5">Sign in</h2>
+              <p className="text-light-muted text-sm">
                 Enter your credentials to access your account.
               </p>
             </div>
@@ -117,17 +127,17 @@ export default function LoginPage() {
             <form onSubmit={handleSubmit} className="space-y-5">
               {/* Email */}
               <div>
-                <label className="text-dark-text text-xs font-medium block mb-2">
+                <label className="text-light-text text-xs font-medium block mb-2">
                   Email address
                 </label>
-                <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-dark-card border border-dark-border focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/20 transition">
+                <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-light-bg border border-light-border focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/20 transition">
                   <FiMail className="text-accent shrink-0" size={16} />
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="farmer@grownroot.com"
-                    className="bg-transparent border-none outline-none text-white text-sm flex-1 placeholder:text-dark-muted"
+                    className="bg-transparent border-none outline-none text-light-text text-sm flex-1 placeholder:text-light-muted"
                     required
                   />
                 </div>
@@ -136,7 +146,7 @@ export default function LoginPage() {
               {/* Password */}
               <div>
                 <div className="flex items-center justify-between mt-3">
-                  <label className="text-dark-text text-xs font-medium">
+                  <label className="text-light-text text-xs font-medium">
                     Password
                   </label>
                   <button
@@ -146,20 +156,20 @@ export default function LoginPage() {
                     Forgot password?
                   </button>
                 </div>
-                <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-dark-card border border-dark-border focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/20 transition">
+                <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-light-bg border border-light-border focus-within:border-accent focus-within:ring-2 focus-within:ring-accent/20 transition">
                   <FiLock className="text-accent shrink-0" size={16} />
                   <input
                     type={showPassword ? 'text' : 'password'}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="bg-transparent border-none outline-none text-white text-sm flex-1 placeholder:text-dark-muted"
+                    className="bg-transparent border-none outline-none text-light-text text-sm flex-1 placeholder:text-light-muted"
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword((s) => !s)}
-                    className="text-dark-muted hover:text-accent transition"
+                    className="text-light-muted hover:text-accent transition"
                     aria-label={showPassword ? 'Hide password' : 'Show password'}
                   >
                     {showPassword ? <FiEyeOff size={16} /> : <FiEye size={16} />}
@@ -168,7 +178,7 @@ export default function LoginPage() {
               </div>
 
               {/* Remember me */}
-              <label className="flex items-center gap-2 text-dark-muted text-xs cursor-pointer select-none w-fit mt-3 mb-3">
+              <label className="flex items-center gap-2 text-light-muted text-xs cursor-pointer select-none w-fit mt-3 mb-3">
                 <input
                   type="checkbox"
                   checked={remember}
@@ -179,7 +189,7 @@ export default function LoginPage() {
               </label>
 
               {error && (
-                <div className="rounded-lg border border-red-400/30 bg-red-500/10 px-3 py-2 text-red-300 text-xs text-center">
+                <div className="rounded-lg border border-red-400/30 bg-red-500/10 px-3 py-2 text-red-600 text-xs text-center">
                   {error}
                 </div>
               )}
@@ -187,16 +197,16 @@ export default function LoginPage() {
               {/* Submit */}
               <button
                 type="submit"
-                className="w-full h-[50px] flex items-center justify-center gap-2 py-3 rounded-5 bg-accent text-dark-bg font-semibold text-sm hover:bg-accent/90 hover:shadow-[0_8px_24px_rgba(45,212,191,0.35)] transition group"
+                className="w-full h-[50px] flex items-center justify-center gap-2 py-3 rounded-5 bg-accent text-white font-semibold text-sm hover:bg-accent/90 hover:shadow-[0_8px_24px_rgba(22,163,74,0.35)] transition group"
               >
                 Sign in
                 <FiArrowRight size={14} className="group-hover:translate-x-0.5 transition" />
               </button>
 
               {/* Register link */}
-              <p className="text-dark-muted text-sm text-center pt-2 mt-2">
+              <p className="text-light-muted text-sm text-center pt-2 mt-2">
                 New to GrownRoot?{' '}
-                <Link to="/register" className="text-accent hover:underline font-medium">
+                <Link to="/register" className="text-black hover:underline font-medium">
                   Create an account
                 </Link>
               </p>

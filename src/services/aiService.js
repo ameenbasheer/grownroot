@@ -331,7 +331,9 @@ export async function analyzeCrop({ name, plantedDate }) {
     const harvest = addDays(validPlanted, 75);
     return {
       matched: false,
+      daysToHarvest: 75,
       harvestDate: formatDate(harvest),
+      harvestIso: harvest.toISOString().slice(0, 10),
       stages: [
         { name: 'Establishment', endDate: formatDate(addDays(validPlanted, 20)) },
         { name: 'Growth', endDate: formatDate(addDays(validPlanted, 50)) },
@@ -353,7 +355,9 @@ export async function analyzeCrop({ name, plantedDate }) {
   return {
     matched: true,
     cropName: crop.name,
+    daysToHarvest: crop.daysToHarvest,
     harvestDate: formatDate(harvest),
+    harvestIso: harvest.toISOString().slice(0, 10),
     stages,
     wateringPerWeek: crop.wateringPerWeek,
     note: crop.note,

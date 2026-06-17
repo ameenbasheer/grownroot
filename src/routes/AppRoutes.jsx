@@ -32,6 +32,9 @@ import AdminDashboard from '../pages/admin/AdminDashboard';
 // Route protection
 import { ProtectedRoute, AdminRoute, FarmerRoute } from './ProtectedRoute';
 
+// Smooth page entrance for layout-less routes
+import PageTransition from '../components/common/PageTransition';
+
 export default function AppRoutes() {
   return (
     <Routes>
@@ -40,11 +43,11 @@ export default function AppRoutes() {
         <Route path="/" element={<LandingPage />} />
       </Route>
 
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/login" element={<PageTransition><LoginPage /></PageTransition>} />
+      <Route path="/register" element={<PageTransition><RegisterPage /></PageTransition>} />
       <Route path="/onboarding" element={
         <FarmerRoute>
-          <FarmerOnboarding />
+          <PageTransition><FarmerOnboarding /></PageTransition>
         </FarmerRoute>
       } />
 
@@ -52,11 +55,18 @@ export default function AppRoutes() {
       <Route element={<MainLayout />}>
         <Route path="/marketplace" element={<MarketplacePage />} />
         <Route path="/marketplace/:id" element={<ProductDetail />} />
-        <Route path="/weather" element={<WeatherPage />} />
+        {/* WeatherPage self-manages no horizontal gutter, so mirror DashboardLayout's
+            <main> wrapper here (MainLayout's <main> has none). Keep these classes in
+            sync with DashboardLayout.jsx. The `!` overrides the global `*{padding:0}` reset. */}
+        <Route path="/weather" element={
+          <main className="max-w-7xl mx-auto px-[1.5rem]! sm:px-[2.5rem]! md:px-[4rem]! lg:px-[6rem]! py-5">
+            <WeatherPage />
+          </main>
+        } />
       </Route>
       <Route path="/marketplace/add" element={
         <ProtectedRoute>
-          <AddProduct />
+          <PageTransition><AddProduct /></PageTransition>
         </ProtectedRoute>
       } />
 

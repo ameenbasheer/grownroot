@@ -31,40 +31,49 @@ export default function AddProduct() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-dark relative overflow-hidden">
-      <DecorativeCircle size="xl" className="-top-40 -left-40 opacity-15" />
-      <DecorativeCircle size="md" className="bottom-20 right-20 opacity-10" />
+    <div className="light-theme min-h-screen bg-gradient-dark relative overflow-hidden">
+      {/* Dark-green hero band */}
+      <section className="section-band-green py-5">
+        <DecorativeCircle size="lg" className="-top-20 -left-20 opacity-25 !border-white/25" />
+        <div className="relative z-10 max-w-5xl mx-auto px-5 py-5">
+          <Link
+            to="/marketplace"
+            className="inline-flex items-center gap-2 text-white/80 hover:text-white text-sm mb-3 no-underline transition-colors"
+          >
+            <FiArrowLeft size={16} />
+            Back to Marketplace
+          </Link>
+          <h1 className="text-4xl md:text-5xl font-light text-white leading-tight">Add New</h1>
+          <h2 className="text-4xl md:text-5xl font-bold mb-3">
+            <span className="gradient-text">Product</span>
+          </h2>
+          <p className="text-white/75 text-sm max-w-xl">
+            List your farm products for direct sale to buyers. Add clear photos and accurate details.
+          </p>
+        </div>
+      </section>
 
-      <div className="max-w-5xl mx-auto px-6 md:px-10 py-8 relative z-10">
-        <Link
-          to="/marketplace"
-          className="inline-flex items-center gap-2 text-dark-muted hover:text-accent text-sm mb-6 no-underline transition-colors"
-        >
-          <FiArrowLeft size={16} />
-          Back to Marketplace
-        </Link>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+      {/* Light section: form */}
+      <div className="max-w-5xl mx-auto px-5 py-5 relative z-10">
+        <DecorativeCircle size="md" className="bottom-20 right-20 opacity-10" />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 items-start">
           {/* Left content */}
           <div>
-            <h1 className="text-4xl md:text-5xl font-light text-white">Add New</h1>
-            <h2 className="text-4xl md:text-5xl font-bold text-accent mb-6">Product</h2>
-
-            <div className="border-l-2 border-accent pl-4 mb-6">
+            <div className="border-l-2 border-accent pl-4 mb-4">
               <p className="text-dark-text text-sm font-medium">
-                List your farm products for direct sale to buyers.
+                Complete the form on the right to publish.
               </p>
             </div>
 
             <p className="text-dark-muted text-sm leading-relaxed">
-              Complete the form to add your product to the marketplace.
               Include clear photos and accurate details to attract more buyers.
+              Organic items get a verified badge automatically.
             </p>
 
             {/* Image upload placeholder */}
-            <div className="img-showcase mt-6 h-52 bg-gradient-to-br from-accent/5 to-primary/5 flex items-center justify-center cursor-pointer">
+            <div className="img-showcase mt-5 h-52 bg-gradient-to-br from-accent/5 to-primary/5 flex items-center justify-center cursor-pointer">
               <div className="text-center">
-                <FiUploadCloud size={36} className="text-accent/40 mx-auto mb-2" />
+                <FiUploadCloud size={36} className="text-accent/60 mx-auto mb-2" />
                 <p className="text-dark-muted text-xs">Upload product photos</p>
               </div>
             </div>
@@ -81,7 +90,7 @@ export default function AddProduct() {
                   value={form.name}
                   onChange={handleChange}
                   placeholder="e.g. Fresh Tomatoes"
-                  className="w-full bg-transparent border-none outline-none text-white text-sm placeholder:text-dark-muted mb-3"
+                  className="w-full bg-transparent border-none outline-none text-dark-text text-sm placeholder:text-dark-muted mb-3"
                   required
                 />
                 <textarea
@@ -90,7 +99,7 @@ export default function AddProduct() {
                   onChange={handleChange}
                   placeholder="Describe your product..."
                   rows={3}
-                  className="w-full bg-transparent border-none outline-none text-white text-sm placeholder:text-dark-muted resize-none"
+                  className="w-full bg-transparent border-none outline-none text-dark-text text-sm placeholder:text-dark-muted resize-none"
                   required
                 />
               </div>
@@ -101,13 +110,13 @@ export default function AddProduct() {
                   name="category"
                   value={form.category}
                   onChange={handleChange}
-                  className="w-full bg-transparent border-none outline-none text-white text-sm"
+                  className="w-full bg-transparent border-none outline-none text-dark-text text-sm"
                 >
-                  <option value="Vegetables" className="bg-dark-bg">Vegetables</option>
-                  <option value="Fruits" className="bg-dark-bg">Fruits</option>
-                  <option value="Grains" className="bg-dark-bg">Grains</option>
-                  <option value="Dairy" className="bg-dark-bg">Dairy</option>
-                  <option value="Other" className="bg-dark-bg">Other</option>
+                  <option value="Vegetables">Vegetables</option>
+                  <option value="Fruits">Fruits</option>
+                  <option value="Grains">Grains</option>
+                  <option value="Dairy">Dairy</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
 
@@ -122,7 +131,7 @@ export default function AddProduct() {
                     onChange={handleChange}
                     placeholder="0.00"
                     step="0.01"
-                    className="flex-1 bg-transparent border-none outline-none text-white text-sm placeholder:text-dark-muted"
+                    className="flex-1 bg-transparent border-none outline-none text-dark-text text-sm placeholder:text-dark-muted"
                     required
                   />
                   <select
@@ -131,10 +140,10 @@ export default function AddProduct() {
                     onChange={handleChange}
                     className="bg-transparent border-none outline-none text-dark-muted text-sm"
                   >
-                    <option value="/kg" className="bg-dark-bg">/kg</option>
-                    <option value="/head" className="bg-dark-bg">/head</option>
-                    <option value="/bunch" className="bg-dark-bg">/bunch</option>
-                    <option value="/dozen" className="bg-dark-bg">/dozen</option>
+                    <option value="/kg">/kg</option>
+                    <option value="/head">/head</option>
+                    <option value="/bunch">/bunch</option>
+                    <option value="/dozen">/dozen</option>
                   </select>
                 </div>
               </div>
@@ -147,7 +156,7 @@ export default function AddProduct() {
                   value={form.location}
                   onChange={handleChange}
                   placeholder="e.g. Green Valley"
-                  className="w-full bg-transparent border-none outline-none text-white text-sm placeholder:text-dark-muted"
+                  className="w-full bg-transparent border-none outline-none text-dark-text text-sm placeholder:text-dark-muted"
                   required
                 />
               </div>
@@ -160,7 +169,7 @@ export default function AddProduct() {
                   value={form.farmer}
                   onChange={handleChange}
                   placeholder="Your name"
-                  className="w-full bg-transparent border-none outline-none text-white text-sm placeholder:text-dark-muted"
+                  className="w-full bg-transparent border-none outline-none text-dark-text text-sm placeholder:text-dark-muted"
                   required
                 />
               </div>
@@ -179,10 +188,10 @@ export default function AddProduct() {
 
             <button
               type="submit"
-              className="pill-btn w-full flex items-center justify-center gap-2 !py-3 text-base hover:!bg-accent/10"
+              className="pill-btn w-full flex items-center justify-center gap-2 !py-3 text-base"
             >
               <FiSave size={18} />
-              Upload product photos
+              Publish product
             </button>
           </form>
         </div>

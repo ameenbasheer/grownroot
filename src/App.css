@@ -468,6 +468,10 @@
   from { transform: translate3d(0, 0, 0); }
   to   { transform: translate3d(-50%, 0, 0); }
 }
+@keyframes grPageEnter {
+  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
 
 /* Scroll-reveal system — JS adds .in-view when element enters viewport */
 .reveal {
@@ -492,6 +496,28 @@
 .reveal[data-delay="320"] { transition-delay: 320ms; }
 .reveal[data-delay="400"] { transition-delay: 400ms; }
 .reveal[data-delay="480"] { transition-delay: 480ms; }
+
+/* Page-level entrance — applied via <PageTransition> on every route.
+ * Re-keyed on pathname so it re-runs on each navigation. `backwards` fill
+ * paints the start frame before the first frame and then reverts to a clean,
+ * transform-free state, so it never traps position:fixed descendants. */
+.page-enter {
+  animation: grPageEnter 0.5s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+/* Opt-in cascade: direct children fade-up in sequence. Drop on any grid/stack
+ * container (e.g. a dashboard root) for a staggered entrance. */
+.stagger-children > * {
+  animation: grPageEnter 0.55s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+.stagger-children > *:nth-child(1) { animation-delay: 0.04s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.10s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.16s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.22s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.28s; }
+.stagger-children > *:nth-child(6) { animation-delay: 0.34s; }
+.stagger-children > *:nth-child(7) { animation-delay: 0.40s; }
+.stagger-children > *:nth-child(8) { animation-delay: 0.46s; }
 
 /* Floating morphing blobs (decorative background) */
 .float-blob {
@@ -664,6 +690,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .reveal,
+  .page-enter,
+  .stagger-children > *,
   .float-blob,
   .float-chip,
   .drift-slow,

@@ -17,7 +17,7 @@ import { useAuth } from '../../context/AuthContext';
 import { CROP_STAGES } from '../../reducers/appReducer';
 import PieChart3D, { PIE_PALETTE } from '../../components/common/PieChart3D';
 import Images from '../../assets/images';
-import logo from '../../assets/logo-green.png';
+import logo from '../../assets/logo.png';
 
 const SOIL_TYPES = [
   { id: 'loam', label: 'Loam', image: Images.soilLoam },
@@ -57,20 +57,20 @@ const STEPS = [
 ];
 
 const PRIMARY_BTN =
-  'inline-flex items-center py-2 justify-center gap-2 rounded-5 bg-accent text-dark-bg font-semibold text-sm tracking-wide hover:shadow-[0_10px_28px_rgba(45,212,191,0.45)] hover:-translate-y-0.5 transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none';
+  'inline-flex items-center py-2 justify-center gap-2 rounded-5 bg-accent text-white font-semibold text-sm tracking-wide hover:shadow-[0_10px_28px_rgba(22,163,74,0.45)] hover:-translate-y-0.5 transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none';
 
 const SECONDARY_BTN =
-  'inline-flex items-center gap-2 text-dark-muted font-medium text-sm hover:text-white transition disabled:opacity-30 disabled:cursor-not-allowed';
+  'inline-flex items-center gap-2 text-light-muted font-medium text-sm hover:text-light-text transition disabled:opacity-30 disabled:cursor-not-allowed';
 
 // rounded pill input
 const FIELD =
-  'w-full bg-dark-card/40 border border-dark-border focus:border-accent rounded-full px-4 py-3 text-white text-base outline-none transition placeholder:text-dark-muted/60';
+  'w-full bg-light-bg border border-light-border focus:border-accent rounded-full px-4 py-3 text-light-text text-base outline-none transition placeholder:text-light-muted';
 
 function StepArea({ data, setData }) {
   const total = Number(data.totalArea) || 0;
 
   return (
-    <div className="space-y-10 mt-2 pt-5">
+    <div className="space-y-10 mt-2   ">
       {/* Unit toggle as text-link tabs */}
       <div className="flex items-center gap-6">
         {[
@@ -83,7 +83,7 @@ function StepArea({ data, setData }) {
             onClick={() => setData({ ...data, areaUnit: u.id })}
             className={`text-sm font-semibold uppercase tracking-[0.18em] pb-1 border-b-2 transition ${data.areaUnit === u.id
               ? 'text-accent border-accent'
-              : 'text-dark-muted border-transparent hover:text-white'
+              : 'text-dark-muted border-transparent hover:text-light-text'
               }`}
           >
             {u.label}
@@ -92,11 +92,11 @@ function StepArea({ data, setData }) {
       </div>
 
       {/* Big number input */}
-      <div>
+      <div className='mb-4'>
         <label className="text-dark-muted text-[11px] uppercase tracking-[0.22em] font-semibold block mt-3 mb-2">
           Total area
         </label>
-        <div className="flex items-baseline gap-3 rounded-full border border-dark-border focus-within:border-accent bg-dark-card/40 px-4 py-3 transition">
+        <div className="flex items-baseline gap-3 rounded-full border border-light-border focus-within:border-accent bg-light-bg px-4 py-3 transition">
           <input
             type="number"
             min="0"
@@ -104,7 +104,7 @@ function StepArea({ data, setData }) {
             value={data.totalArea}
             onChange={(e) => setData({ ...data, totalArea: e.target.value })}
             placeholder="0"
-            className="flex-1 bg-transparent border-none outline-none text-white text-2xl font-bold placeholder:text-dark-muted/25 leading-none tabular-nums min-w-0"
+            className="flex-1 bg-transparent border-none outline-none text-light-text text-2xl font-bold placeholder:text-light-muted/40 leading-none tabular-nums min-w-0"
           />
           <span className="text-dark-muted text-[18px] font-medium lowercase">
             {data.areaUnit === 'acre' ? 'acres' : 'cents'}
@@ -162,11 +162,11 @@ function StepLocationSoil({ data, setData }) {
   return (
     <div className="space-y-10">
       <div className="relative">
-        <label className="text-dark-muted text-[11px] uppercase tracking-[0.22em] font-semibold block mt-5 mb-2">
+        <label className="text-dark-muted text-[11px] uppercase tracking-[0.22em] font-semibold block mt-1 mb-2">
           Where's your farm?
         </label>
-        <div className="relative flex items-center rounded-full border border-dark-border focus-within:border-accent bg-dark-card/40 px-4 transition">
-          <FiSearch className="text-dark-muted shrink-0 mr-3" size={18} />
+        <div className="relative flex items-center rounded-full border border-light-border focus-within:border-accent bg-light-bg px-4 transition">
+          <FiSearch className="text-light-muted shrink-0 mr-3" size={18} />
           <input
             type="text"
             value={query}
@@ -177,17 +177,17 @@ function StepLocationSoil({ data, setData }) {
             }}
             onFocus={() => setShowSugg(true)}
             placeholder="Search a city or village..."
-            className="flex-1 bg-transparent border-none outline-none text-white text-base py-3 px-3 placeholder:text-dark-muted/60"
+            className="flex-1 bg-transparent border-none outline-none text-light-text text-base py-3 px-3 placeholder:text-light-muted"
           />
         </div>
         {showSugg && matches.length > 0 && (
-          <div className="absolute z-20 mt-2 w-full bg-dark-card border border-dark-border rounded-xl shadow-2xl overflow-hidden py-1">
+          <div className="absolute z-20 mt-2 w-full bg-light-card border border-light-border rounded-xl shadow-2xl overflow-hidden py-1">
             {matches.map((m) => (
               <button
                 key={m}
                 type="button"
                 onClick={() => pickLocation(m)}
-                className="w-full text-left px-4 py-2.5 text-sm text-dark-text hover:bg-accent/10 hover:text-white transition flex items-center gap-2.5"
+                className="w-full text-left px-4 py-2.5 text-sm text-light-text hover:bg-accent/10 hover:text-accent transition flex items-center gap-2.5"
               >
                 <FiMapPin size={14} className="text-accent" />
                 {m}
@@ -219,7 +219,7 @@ function StepLocationSoil({ data, setData }) {
                   <p className="text-white text-xs font-semibold text-left">{s.label}</p>
                 </div>
                 {selected && (
-                  <span className="absolute top-2 right-2 w-6 h-6 rounded-full bg-accent text-dark-bg flex items-center justify-center shadow-md">
+                  <span className="absolute top-2 right-2 w-6 h-6 rounded-full bg-accent text-white flex items-center justify-center shadow-md">
                     <FiCheck size={14} />
                   </span>
                 )}
@@ -230,19 +230,19 @@ function StepLocationSoil({ data, setData }) {
             type="button"
             onClick={openSoilModal}
             className={`relative aspect-square rounded-2xl border-2 border-dashed flex flex-col items-center justify-center gap-1.5 transition-all duration-200 ${isCustomSoil
-              ? 'border-accent text-accent bg-accent/10 scale-[1.04] shadow-[0_10px_28px_rgba(45,212,191,0.4)]'
-              : 'border-dark-border text-dark-muted hover:border-accent/50 hover:text-accent hover:-translate-y-0.5'
+              ? 'border-accent text-accent bg-accent/10 scale-[1.04] shadow-[0_10px_28px_rgba(22,163,74,0.4)]'
+              : 'border-light-border text-light-muted hover:border-accent/50 hover:text-accent hover:-translate-y-0.5'
               }`}
           >
             <FiPlus size={24} />
             <span className="text-xs font-semibold">Other</span>
             {isCustomSoil && data.customSoilLabel && (
-              <span className="text-[15px] text-white font-medium px-2 text-center truncate max-w-full">
+              <span className="text-[15px] text-accent font-medium px-2 text-center truncate max-w-full">
                 {data.customSoilLabel}
               </span>
             )}
             {isCustomSoil && (
-              <span className="absolute top-2 right-2 w-6 h-6 rounded-full bg-accent text-dark-bg flex items-center justify-center shadow-md">
+              <span className="absolute top-2 right-2 w-6 h-6 rounded-full bg-accent text-white flex items-center justify-center shadow-md">
                 <FiCheck size={14} />
               </span>
             )}
@@ -256,7 +256,7 @@ function StepLocationSoil({ data, setData }) {
           onClick={closeSoilModal}
         >
           <div
-            className="w-full max-w-md bg-dark-card border border-dark-border px-4 py-4 rounded-2xl shadow-2xl p-6"
+            className="w-full max-w-md bg-light-card border border-light-border px-4 py-4 rounded-2xl shadow-2xl p-6"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-start justify-between gap-3 mb-5">
@@ -264,18 +264,18 @@ function StepLocationSoil({ data, setData }) {
                 <p className="text-accent text-[11px] uppercase tracking-[0.22em] font-semibold mb-1">
                   Custom soil
                 </p>
-                <h3 className="text-white text-lg font-bold">Add your soil type</h3>
+                <h3 className="text-light-text text-lg font-bold">Add your soil type</h3>
               </div>
               <button
                 type="button"
                 onClick={closeSoilModal}
-                className="text-dark-muted hover:text-white p-1 transition"
+                className="text-light-muted hover:text-light-text p-1 transition"
                 aria-label="Close"
               >
                 <FiX size={18} />
               </button>
             </div>
-            <p className="text-dark-muted text-sm mb-4">
+            <p className="text-light-muted text-sm mb-4">
               Don't see your soil type? Enter it here and we'll use it for your farm.
             </p>
             <input
@@ -293,7 +293,7 @@ function StepLocationSoil({ data, setData }) {
               <button
                 type="button"
                 onClick={closeSoilModal}
-                className="px-4 py-2.5 rounded-full text-dark-muted hover:text-white text-sm font-semibold transition"
+                className="px-4 py-2.5 rounded-full text-light-muted hover:text-light-text text-sm font-semibold transition"
               >
                 Cancel
               </button>
@@ -398,15 +398,15 @@ function StepCrops({ data, setData }) {
       {data.crops.length > 0 && (
         <div className='mb-5'>
           <div className="flex items-center justify-between mb-3">
-            <p className="text-dark-muted text-[11px] uppercase tracking-[0.22em] font-semibold">
+            <p className="text-light-muted text-[11px] uppercase tracking-[0.22em] font-semibold">
               Your crops
             </p>
-            <p className="text-xs text-dark-muted">
+            <p className="text-xs text-light-muted">
               <span className="text-accent font-semibold">{usedPercent}%</span> allocated · {remaining}% left
             </p>
           </div>
           {/* progress bar */}
-          <div className="h-1 bg-dark-border rounded-full overflow-hidden mb-4">
+          <div className="h-1 bg-light-border rounded-full overflow-hidden mb-4">
             <div
               className="h-full bg-accent transition-all"
               style={{ width: `${Math.min(100, usedPercent)}%` }}
@@ -416,7 +416,7 @@ function StepCrops({ data, setData }) {
             {data.crops.map((c) => (
               <div
                 key={c.tempId}
-                className="inline-flex items-center gap-2 pl-1.5 pr-2 py-1.5 rounded-full border border-dark-border bg-dark-card/40"
+                className="inline-flex items-center gap-2 pl-1.5 pr-2 py-1.5 rounded-full border border-light-border bg-light-bg"
               >
                 <div className="w-7 h-7 rounded-full overflow-hidden bg-accent/10 flex items-center justify-center shrink-0">
                   {c.image ? (
@@ -425,12 +425,12 @@ function StepCrops({ data, setData }) {
                     <GiPlantSeed className="text-accent" size={14} />
                   )}
                 </div>
-                <span className="text-white text-xs font-medium">{c.name}</span>
-                <span className="text-dark-muted text-xs">{c.areaPercent}%</span>
+                <span className="text-light-text text-xs font-medium">{c.name}</span>
+                <span className="text-light-muted text-xs">{c.areaPercent}%</span>
                 <button
                   type="button"
                   onClick={() => removeCrop(c.tempId)}
-                  className="ml-1 text-dark-muted hover:text-red-400 transition me-1"
+                  className="ml-1 text-light-muted hover:text-red-500 transition me-1"
                   aria-label={`Remove ${c.name}`}
                 >
                   <FiX size={14} />
@@ -464,7 +464,7 @@ function StepCrops({ data, setData }) {
                   <p className="text-white text-xs font-semibold text-left">{c.name}</p>
                 </div>
                 {selected && (
-                  <span className="absolute top-2 right-2 w-6 h-6 rounded-full bg-accent text-dark-bg flex items-center justify-center shadow-md">
+                  <span className="absolute top-2 right-2 w-6 h-6 rounded-full bg-accent text-white flex items-center justify-center shadow-md">
                     <FiCheck size={14} />
                   </span>
                 )}
@@ -476,7 +476,7 @@ function StepCrops({ data, setData }) {
             onClick={startCustom}
             className={`aspect-square rounded-2xl border-2 border-dashed flex flex-col items-center justify-center gap-1 transition-all duration-200 ${draft.isCustom
               ? 'border-accent text-accent bg-accent/10 scale-[1.04]'
-              : 'border-dark-border text-dark-muted hover:border-accent/50 hover:text-accent hover:-translate-y-0.5'
+              : 'border-light-border text-light-muted hover:border-accent/50 hover:text-accent hover:-translate-y-0.5'
               }`}
           >
             <FiPlus size={24} />
@@ -487,15 +487,15 @@ function StepCrops({ data, setData }) {
 
       {/* Draft form */}
       {(draft.name || draft.isCustom) && (
-        <div className="border-t border-dark-border pt-3 space-y-5">
+        <div className="border-t border-light-border pt-3 space-y-5">
           <div className="flex items-start justify-between gap-3">
-            <p className="text-white text-sm font-semibold">
+            <p className="text-light-text text-sm font-semibold">
               {draft.isCustom ? 'Add custom crop' : `Configure ${draft.name}`}
             </p>
             <button
               type="button"
               onClick={cancelDraft}
-              className="text-dark-muted hover:text-white p-1 transition"
+              className="text-light-muted hover:text-light-text p-1 transition"
               aria-label="Clear"
             >
               <FiX size={16} />
@@ -507,7 +507,7 @@ function StepCrops({ data, setData }) {
               <button
                 type="button"
                 onClick={() => fileRef.current?.click()}
-                className="w-16 h-16 rounded-xl border-2 border-dashed border-dark-border hover:border-accent/60 flex flex-col items-center justify-center gap-0.5 text-dark-muted hover:text-accent transition shrink-0 overflow-hidden"
+                className="w-16 h-16 rounded-xl border-2 border-dashed border-light-border hover:border-accent/60 flex flex-col items-center justify-center gap-0.5 text-light-muted hover:text-accent transition shrink-0 overflow-hidden"
               >
                 {draft.imagePreview ? (
                   <img src={draft.imagePreview} alt="preview" className="w-full h-full object-cover" />
@@ -542,8 +542,8 @@ function StepCrops({ data, setData }) {
                     type="button"
                     onClick={() => setDraft({ ...draft, currentStage: stage })}
                     className={`px-3 py-1.5 rounded-full text-xs font-medium border transition ${sel
-                      ? 'bg-accent text-dark-bg border-accent'
-                      : 'bg-transparent text-dark-text border-dark-border hover:border-accent/60'
+                      ? 'bg-accent text-white border-accent'
+                      : 'bg-transparent text-light-text border-light-border hover:border-accent/60'
                       }`}
                   >
                     {stage}
@@ -557,7 +557,7 @@ function StepCrops({ data, setData }) {
             <label className="text-dark-muted text-[11px] uppercase tracking-[0.22em] font-semibold block mt-4 mb-2">
               Area % of farm
             </label>
-            <div className="flex items-baseline gap-3 rounded-full border border-dark-border focus-within:border-accent bg-dark-card/40 px-6 py-3 transition">
+            <div className="flex items-baseline gap-3 rounded-full border border-light-border focus-within:border-accent bg-light-bg px-6 py-3 transition">
               <input
                 type="number"
                 min="0"
@@ -566,13 +566,13 @@ function StepCrops({ data, setData }) {
                 value={draft.areaPercent}
                 onChange={(e) => setDraft({ ...draft, areaPercent: e.target.value })}
                 placeholder="0"
-                className="flex-1 px-4 bg-transparent border-none outline-none text-white text-3xl font-bold placeholder:text-dark-muted/30 tabular-nums min-w-0"
+                className="flex-1 px-4 bg-transparent border-none outline-none text-light-text text-3xl font-bold placeholder:text-light-muted/40 tabular-nums min-w-0"
               />
-              <span className="text-dark-muted text-base pe-4">%</span>
+              <span className="text-light-muted text-base pe-4">%</span>
             </div>
           </div>
 
-          {error && <p className="text-red-400 text-xs">{error}</p>}
+          {error && <p className="text-red-600 text-xs">{error}</p>}
 
           <div className="flex justify-end mt-4 mb-5">
             <button
@@ -614,11 +614,11 @@ function StepConfirm({ data }) {
         <PieChart3D data={pieData} size={260} depth={26} />
       </div>
 
-      <dl className="divide-y divide-dark-border border-y border-dark-border">
+      <dl className="divide-y divide-light-border border-y border-light-border">
         {stats.map((s) => (
           <div key={s.label} className="flex items-center justify-between py-3">
-            <dt className="text-dark-muted text-xs uppercase tracking-[0.18em] font-semibold">{s.label}</dt>
-            <dd className="text-white text-sm font-semibold capitalize text-right max-w-[60%] truncate">{s.value}</dd>
+            <dt className="text-light-muted text-xs uppercase tracking-[0.18em] font-semibold">{s.label}</dt>
+            <dd className="text-light-text text-sm font-semibold capitalize text-right max-w-[60%] truncate">{s.value}</dd>
           </div>
         ))}
       </dl>
@@ -642,7 +642,7 @@ export default function FarmerOnboarding() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gradient-dark flex items-center justify-center text-dark-text p-6 text-center">
+      <div className="light-theme min-h-screen bg-gradient-dark flex items-center justify-center text-light-text p-6 text-center">
         <div>
           <p className="mb-4">You need to register first.</p>
           <Link to="/register" className="text-accent">Go to register</Link>
@@ -696,42 +696,41 @@ export default function FarmerOnboarding() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-dark flex flex-col">
-      {/* Top header */}
-      <header className="px-6 md:px-10 py-6 flex items-center justify-between">
-        <Link to="/" className="inline-flex items-center no-underline">
-          <img src={logo} alt="GrownRoot" className="h-9 w-auto object-contain" />
-        </Link>
-        {/* Step dots */}
-        <div className="flex items-center gap-2">
-          {STEPS.map((s) => {
-            const done = step > s.id;
-            const active = step === s.id;
-            return (
-              <div
-                key={s.id}
-                className={`h-1.5 rounded-full transition-all duration-300 ${active ? 'w-8 bg-accent' : done ? 'w-4 bg-accent/60' : 'w-4 bg-dark-border'
-                  }`}
-              />
-            );
-          })}
+    <div className="light-theme min-h-screen bg-gradient-dark flex flex-col">
+      {/* Top header — DARK GREEN BAND */}
+      <header className="section-band-green">
+        <div className="px-6 md:px-10 py-5 flex items-center justify-between max-w-2xl mx-auto w-full">
+          <Link to="/" className="inline-flex items-center no-underline">
+            <img src={logo} alt="GrownRoot" className="h-9 w-auto object-contain" />
+          </Link>
+          {/* Step dots */}
+          <div className="flex items-center gap-2">
+            {STEPS.map((s) => {
+              const done = step > s.id;
+              const active = step === s.id;
+              return (
+                <div
+                  key={s.id}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${active ? 'w-8 bg-accent' : done ? 'w-4 bg-accent/60' : 'w-4 bg-white/25'
+                    }`}
+                />
+              );
+            })}
+          </div>
         </div>
-      </header>
 
-      {/* Main content */}
-      <main className="flex-1 px-6 md:px-10 pb-5 flex flex-col">
-        <div className="w-full max-w-2xl mx-auto flex-1 flex flex-col">
-          {/* Editorial step header */}
-          <div className="pt-8 md:pt-16 pb-10">
-            <div className="flex items-baseline gap-5 mb-5">
-              <span className="text-accent/30 text-7xl md:text-8xl font-bold leading-none tabular-nums select-none">
+        {/* Editorial step header on the dark band */}
+        <div className="px-6 md:px-10 pb-5">
+          <div className="w-full max-w-2xl mx-auto">
+            <div className="flex items-baseline gap-5 mb-3">
+              <span className="text-accent/40 text-7xl md:text-8xl font-bold leading-none tabular-nums select-none">
                 {String(step).padStart(2, '0')}
               </span>
               <div className="pb-2">
                 <p className="text-accent text-[11px] uppercase tracking-[0.22em] font-semibold">
                   {current.label}
                 </p>
-                <p className="text-dark-muted text-xs mt-1">
+                <p className="text-white/70 text-xs mt-1">
                   Step {step} of {STEPS.length}
                 </p>
               </div>
@@ -739,10 +738,16 @@ export default function FarmerOnboarding() {
             <h1 className="text-3xl md:text-5xl font-bold text-white tracking-tight mb-3 leading-tight">
               {current.title}
             </h1>
-            <p className="text-dark-muted text-sm md:text-base leading-relaxed max-w-xl">
+            <p className="text-white/75 text-sm md:text-base leading-relaxed max-w-xl">
               {current.blurb}
             </p>
           </div>
+        </div>
+      </header>
+
+      {/* Main content — LIGHT CREAM */}
+      <main className="flex-1 px-6 md:px-10 py-5 flex flex-col">
+        <div className="w-full max-w-2xl mx-auto flex-1 flex flex-col">
 
           {/* Step content */}
           <div className="flex-1">
@@ -759,7 +764,7 @@ export default function FarmerOnboarding() {
                 type="button"
                 onClick={() => setStep(Math.max(1, step - 1))}
                 disabled={step === 1}
-                className=" h-[52px] px-5 inline-flex items-center justify-center gap-2 rounded-5 bg-dark-card border border-dark-border text-dark-text font-semibold text-sm hover:border-accent/50 hover:text-white hover:bg-dark-card/70 transition-all group disabled:opacity-30 disabled:cursor-not-allowed"
+                className=" h-[52px] px-5 inline-flex items-center justify-center gap-2 rounded-5 bg-light-card border border-light-border text-light-text font-semibold text-sm hover:border-accent/50 hover:text-accent hover:bg-light-bg transition-all group disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 <FiArrowLeft size={15} className="group-hover:-translate-x-0.5 transition" />
                 <span className="hidden sm:inline">Back</span>
@@ -768,7 +773,7 @@ export default function FarmerOnboarding() {
                 type="button"
                 onClick={handleNext}
                 disabled={!canContinue}
-                className="flex-1 h-[52px] inline-flex items-center justify-center gap-2 rounded-5 bg-accent text-dark-bg font-semibold text-sm tracking-wide hover:bg-accent/90 hover:shadow-[0_12px_32px_rgba(45,212,191,0.45)] hover:-translate-y-0.5 transition-all group disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none disabled:hover:bg-accent"
+                className="flex-1 h-[52px] inline-flex items-center justify-center gap-2 rounded-5 bg-accent text-white font-semibold text-sm tracking-wide hover:bg-accent/90 hover:shadow-[0_12px_32px_rgba(22,163,74,0.45)] hover:-translate-y-0.5 transition-all group disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none disabled:hover:bg-accent"
               >
                 {step === 4 ? 'Finish setup' : 'Continue'}
                 {step === 4 ? (
@@ -778,7 +783,7 @@ export default function FarmerOnboarding() {
                 )}
               </button>
             </div>
-            <p className="text-dark-muted/70 text-[11px] text-center mt-4">
+            <p className="text-light-muted text-[11px] text-center mt-4">
               {canContinue
                 ? 'Press Enter or click Continue to proceed'
                 : step === 1
